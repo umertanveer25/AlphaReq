@@ -1,0 +1,25 @@
+{
+    "Total_Requirements": 7060,
+    "Evaluated_Projects": 142,
+    "Metrics": {
+        "AlphaReq_CSR_Mean": 0.978498591549296,
+        "AlphaReq_CSR_Std": 0.0042268138649585825,
+        "AlSafadi_CSR_Mean": 0.7670985915492957,
+        "Ezzini_CSR_Mean": 0.6959507042253521,
+        "AlphaReq_Cohesion_Mean": 0.8765163982432946,
+        "AlSafadi_Cohesion_Mean": 0.6846960908194913,
+        "AlphaReq_Coupling_Mean": 0.6666666666666666,
+        "AlSafadi_Coupling_Mean": 0.6040492957746479,
+        "AlphaReq_Fitness_Mean": 0.7441561367621066,
+        "AlSafadi_Fitness_Mean": 0.6227932250601909,
+        "Ezzini_Fitness_Mean": 0.4392995813111951
+    },
+    "Significance_vs_AlSafadi": {
+        "CSR_Wilcoxon_p": 5.638939879971173e-26,
+        "CSR_Cohens_d": 2.314542369088711,
+        "CSR_Vargha_Delaney_A12": 1.0,
+        "Fitness_Wilcoxon_p": 4.744540836399232e-25,
+        "Fitness_Cohens_d": 1.9663611171667257,
+        "Fitness_Vargha_Delaney_A12": 1.0
+    }
+}
