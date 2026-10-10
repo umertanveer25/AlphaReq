@@ -1,0 +1,35 @@
+{
+    "Friedman_ChiSquare": 35.23577235772342,
+    "Friedman_p_value": 4.1550822073430625e-07,
+    "Friedman_Significant": true,
+    "Pairwise_Tests": {
+        "SA_vs_Genetic_Algorithm": {
+            "Wilcoxon_W": 13.0,
+            "p_value": 0.13941397332153205,
+            "Cohens_d": -0.24206097707322444,
+            "Vargha_Delaney_A12": 0.4985185185185185,
+            "Significant": false
+        },
+        "SA_vs_Tabu_Search": {
+            "Wilcoxon_W": 7.0,
+            "p_value": 0.463071015014588,
+            "Cohens_d": -0.050041778231930324,
+            "Vargha_Delaney_A12": 0.5009876543209877,
+            "Significant": false
+        },
+        "SA_vs_Hill_Climbing": {
+            "Wilcoxon_W": 13.0,
+            "p_value": 0.8657723749926214,
+            "Cohens_d": -0.092132710874605,
+            "Vargha_Delaney_A12": 0.4997530864197531,
+            "Significant": false
+        },
+        "SA_vs_Random_Search": {
+            "Wilcoxon_W": 2.0,
+            "p_value": 0.0009870974388792308,
+            "Cohens_d": -0.24378214321917957,
+            "Vargha_Delaney_A12": 0.4849382716049383,
+            "Significant": true
+        }
+    }
+}

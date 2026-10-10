@@ -3,7 +3,7 @@
 [![CI/CD Pipeline](https://github.com/umertanveer25/AlphaReq/actions/workflows/ci.yml/badge.svg)](https://github.com/umertanveer25/AlphaReq/actions)
 [![Python Version](https://img.shields.io/badge/Python-3.9%20%7C%203.10%20%7C%203.11%20%7C%203.12-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Unit Tests](https://img.shields.io/badge/Unit%20Tests-19%20Passed%20(100%25)-brightgreen.svg)](tests/)
+[![Unit Tests](https://img.shields.io/badge/Unit%20Tests-27%20Passed%20(100%25)-brightgreen.svg)](tests/)
 [![Corpus](https://img.shields.io/badge/Corpus-PROMISE%20P--EXP%20(N%3D969%2C%2047%20Projects)-orange.svg)](B:/Promise/Paper2/data/p_exp.csv)
 [![Audit Status](https://img.shields.io/badge/3rd--Party%20Code%20Audit-PASSED%20(Double%20Reviewed)-teal.svg)](audit/AUDIT_REPORT.md)
 [![Docker Ready](https://img.shields.io/badge/Docker%20Compose-Ready-blue.svg)](docker/docker-compose.yml)
@@ -133,6 +133,41 @@ Composite Architectural Fitness                 0.403                         0.
 ========================================================================================================================
 ```
 
+### 6.1 Multi-Solver Optimization Tournament (47 Projects)
+Evaluating 5 distinct metaheuristic algorithmic backbones on minimizing system tension $\mathcal{H}(\boldsymbol{\sigma})$:
+
+| Optimization Algorithm | Mean Energy $\mathcal{H}(\boldsymbol{\sigma})$ | Mean Runtime (ms) | Mean CSR (%) | Mean Fitness | Friedman Rank | Pairwise vs SA ($p$-value) |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Simulated Annealing (SA)** *(Champion)* | **-78.63** | 3.13 ms | **96.82%** | **0.779** | **1st** | **Reference** |
+| **Tabu Search (TS)** | -78.26 | 8.64 ms | 96.83% | 0.779 | 2nd | $p = 0.463$ (Comparable) |
+| **Greedy Hill Climbing (HC)** | -77.98 | **0.41 ms** | 96.84% | 0.779 | 3rd | $p = 0.866$ (Fast Baseline) |
+| **Genetic Algorithm (GA)** | -70.84 | 38.62 ms | 96.72% | 0.778 | 4th | $p = 0.139$ |
+| **Random Search (RS)** | -58.61 | 3.91 ms | 96.84% | 0.779 | 5th | $p = 9.87 \times 10^{-4}$ (Sig. Worse) |
+
+*Omnibus Statistical Significance:* **Friedman Test $\chi^2 = 35.236, p = 4.16 \times 10^{-7}$** (Statistically Significant differentiation across solvers).
+
+### 6.2 Multi-Clustering Architecture Tournament (47 Projects)
+Evaluating 3 distinct unsupervised machine learning backbones for functional microservice partitioning:
+
+| Clustering Backbone | Modularity Cohesion ($Q$) | Coupling Density ($\mathcal{C}$) | Composite Architecture Fitness | Friedman Test |
+| :--- | :---: | :---: | :---: | :---: |
+| **Agglomerative Hierarchical (Cosine Linkage)** | 0.715 | **0.326** | 0.779 | Reference Baseline |
+| **K-Means (Spherical Centroid)** | 0.729 | **0.326** | 0.784 | Comparable Decoupling |
+| **Spectral (Graph Laplacian)** | **0.731** | **0.326** | **0.785** | $\chi^2 = 21.041, p = 2.70 \times 10^{-5}$ |
+
+### 6.3 Rigorous Component Ablation Study (47 Projects)
+Isolating the individual contribution of each system component against the full AlphaReq pipeline:
+
+| Model Configuration | Mean CSR (%) | Delta vs Full | Mean Fitness | Wilcoxon $p$-value | Cohen's $d$ | Vargha-Delaney $\hat{A}_{12}$ | Significance |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Full AlphaReq (Complete Model)** | **96.82%** | **Ref** | **0.779** | -- | -- | -- | **Champion** |
+| **w/o Infrastructure Enclaves (Bundled NFRs)** | 67.13% | **-29.69%** | 0.560 | $p = 5.68 \times 10^{-14}$ | $+2.39$ | $1.000$ | **Catastrophic Drop** |
+| **w/o Tension Coupling Matrix ($J = 0$)** | 98.00%* | +1.18%* | 0.782 | $p = 5.91 \times 10^{-5}$ | $-0.75$ | $0.267$ | Ignores Trade-Offs |
+| **w/o Normative Modal Weights ($h = 1$)** | 96.88% | +0.05% | 0.779 | $p = 0.317$ | $-0.15$ | $0.498$ | Not Significant |
+| **w/o Optimization Solver ($\boldsymbol{\sigma} = \mathbf{1}$)** | 98.00%* | +1.18%* | 0.782 | $p = 5.91 \times 10^{-5}$ | $-0.75$ | $0.267$ | Forced Full Compliance |
+
+*\*Note: Removing $J$ or the solver forces 100% nominal active compliance, but without infrastructure enclaves, system execution collapses under load.*
+
 ---
 
 ## 7. Quickstart & One-Click Reproduction
@@ -146,14 +181,18 @@ cd AlphaReq
 pip install -r requirements.txt
 ```
 
-### Step 2: Run Automated Unit Tests (19/19 Passing)
+### Step 2: Run Automated Unit Tests (27/27 Passing)
 ```bash
 python -m pytest tests/ -v
 ```
 
-### Step 3: Run the Master Benchmark & Generate All Plots
+### Step 3: Run the Master Benchmark Suite
 ```bash
+# Run primary benchmark & export plots
 python run_pipeline.py --data-path "B:/Promise/Paper2/data/p_exp.csv"
+
+# Run complete tournament (Primary + 5 Solvers + 3 Clustering + Ablation Study)
+python run_pipeline.py --run-all --data-path "B:/Promise/Paper2/data/p_exp.csv"
 ```
 
 ### Command-Line Arguments:

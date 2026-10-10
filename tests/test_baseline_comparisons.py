@@ -32,3 +32,15 @@ def test_statistical_test_computation():
     assert 'Cohesion_vs_AlSafadi' in stats
     assert stats['Cohesion_vs_AlSafadi']['Significant'] is True
     assert stats['CSR_vs_AlSafadi']['Cohens_d'] > 0
+    assert 'Vargha_Delaney_A12' in stats['CSR_vs_AlSafadi']
+
+def test_vargha_delaney_a12():
+    import numpy as np
+    x = np.array([10, 11, 12, 13, 14])
+    y = np.array([1, 2, 3, 4, 5])
+    a12 = MasterEvaluationBenchmark.vargha_delaney_a12(x, y)
+    assert a12 == 1.0  # Perfect superiority
+
+    # Equal distributions
+    a12_equal = MasterEvaluationBenchmark.vargha_delaney_a12(x, x)
+    assert a12_equal == 0.5

@@ -66,3 +66,17 @@ def test_export_docker_compose_without_gateway(tmp_path):
     assert "worker-service:" in content
     assert "depends_on:" not in content
     assert "redis-cache:" in content
+
+def test_kmeans_clustering_backbone(sample_requirements_df):
+    synth = ArchitectureSynthesizer(target_modules=2, clustering_method='kmeans')
+    J = np.zeros((7, 7))
+    sigma = np.ones(7)
+    arch = synth.fold_architecture(sample_requirements_df, J, sigma)
+    assert 0.0 <= arch['metrics']['cohesion_modularity'] <= 1.0
+
+def test_spectral_clustering_backbone(sample_requirements_df):
+    synth = ArchitectureSynthesizer(target_modules=2, clustering_method='spectral')
+    J = np.zeros((7, 7))
+    sigma = np.ones(7)
+    arch = synth.fold_architecture(sample_requirements_df, J, sigma)
+    assert 0.0 <= arch['metrics']['cohesion_modularity'] <= 1.0

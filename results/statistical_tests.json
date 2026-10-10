@@ -3,24 +3,28 @@
         "Wilcoxon_W": 228.0,
         "p_value": 0.008573121867134971,
         "Cohens_d": 0.23287312509973457,
+        "Vargha_Delaney_A12": 0.5654320987654321,
         "Significant": true
     },
     "Coupling_vs_AlSafadi": {
         "Wilcoxon_W": 109.0,
         "p_value": 5.778346121587674e-07,
         "Cohens_d": -1.0172404371888701,
+        "Vargha_Delaney_A12": 0.21728395061728395,
         "Significant": true
     },
     "CSR_vs_AlSafadi": {
         "Wilcoxon_W": 0.0,
         "p_value": 5.684341886080802e-14,
         "Cohens_d": 2.3879779077996184,
+        "Vargha_Delaney_A12": 1.0,
         "Significant": true
     },
     "Fitness_vs_AlSafadi": {
         "Wilcoxon_W": 0.0,
         "p_value": 5.684341886080802e-14,
         "Cohens_d": 2.354220183561344,
+        "Vargha_Delaney_A12": 1.0,
         "Significant": true
     }
 }

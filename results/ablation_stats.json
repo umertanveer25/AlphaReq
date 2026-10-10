@@ -1,0 +1,30 @@
+{
+    "Full_vs_WO_Enclaves": {
+        "Wilcoxon_W": 0.0,
+        "p_value": 5.684341886080802e-14,
+        "Cohens_d": 2.3879779077996184,
+        "Vargha_Delaney_A12": 1.0,
+        "Significant": true
+    },
+    "Full_vs_WO_Coupling_J": {
+        "Wilcoxon_W": 0.0,
+        "p_value": 5.91118392144742e-05,
+        "Cohens_d": -0.7486734818765056,
+        "Vargha_Delaney_A12": 0.26666666666666666,
+        "Significant": true
+    },
+    "Full_vs_WO_Modals_h": {
+        "Wilcoxon_W": 0.0,
+        "p_value": 0.31731050786291415,
+        "Cohens_d": -0.15075523959781603,
+        "Vargha_Delaney_A12": 0.4982716049382716,
+        "Significant": false
+    },
+    "Full_vs_WO_Optimization": {
+        "Wilcoxon_W": 0.0,
+        "p_value": 5.91118392144742e-05,
+        "Cohens_d": -0.7486734818765056,
+        "Vargha_Delaney_A12": 0.26666666666666666,
+        "Significant": true
+    }
+}

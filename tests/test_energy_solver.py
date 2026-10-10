@@ -48,3 +48,55 @@ def test_analyze_resolution_strategy():
     assert len(mitigations) == 2
     assert "Redis" in mitigations[0]['architectural_mitigation']
     assert "Gateway" in mitigations[1]['architectural_mitigation']
+
+def test_genetic_algorithm_solver():
+    from src.energy_solver import GeneticAlgorithmSolver
+    ga = GeneticAlgorithmSolver(population_size=10, generations=10)
+    J = np.array([[0.0, -0.8], [-0.8, 0.0]])
+    h = np.array([1.0, 1.0])
+    sigma, energy, hist = ga.solve_ground_state(J, h, random_seed=42)
+    assert len(sigma) == 2
+    assert set(np.unique(sigma)).issubset({-1.0, 1.0})
+    assert len(hist) > 0
+
+def test_tabu_search_solver():
+    from src.energy_solver import TabuSearchSolver
+    ts = TabuSearchSolver(tabu_tenure=2, max_steps=15)
+    J = np.array([[0.0, -0.8], [-0.8, 0.0]])
+    h = np.array([1.0, 1.0])
+    sigma, energy, hist = ts.solve_ground_state(J, h, random_seed=42)
+    assert len(sigma) == 2
+    assert set(np.unique(sigma)).issubset({-1.0, 1.0})
+
+def test_greedy_hill_climbing_solver():
+    from src.energy_solver import GreedyHillClimbingSolver
+    hc = GreedyHillClimbingSolver(max_steps=15)
+    J = np.array([[0.0, -0.8], [-0.8, 0.0]])
+    h = np.array([1.0, 1.0])
+    sigma, energy, hist = hc.solve_ground_state(J, h, random_seed=42)
+    assert len(sigma) == 2
+    assert set(np.unique(sigma)).issubset({-1.0, 1.0})
+
+def test_random_search_solver():
+    from src.energy_solver import RandomSearchSolver
+    rs = RandomSearchSolver(samples=20)
+    J = np.array([[0.0, -0.8], [-0.8, 0.0]])
+    h = np.array([1.0, 1.0])
+    sigma, energy, hist = rs.solve_ground_state(J, h, random_seed=42)
+    assert len(sigma) == 2
+    assert set(np.unique(sigma)).issubset({-1.0, 1.0})
+
+def test_get_optimization_solver_factory():
+    from src.energy_solver import (
+        get_optimization_solver,
+        SimulatedAnnealingSolver,
+        GeneticAlgorithmSolver,
+        TabuSearchSolver,
+        GreedyHillClimbingSolver,
+        RandomSearchSolver
+    )
+    assert isinstance(get_optimization_solver('sa'), SimulatedAnnealingSolver)
+    assert isinstance(get_optimization_solver('ga'), GeneticAlgorithmSolver)
+    assert isinstance(get_optimization_solver('tabu'), TabuSearchSolver)
+    assert isinstance(get_optimization_solver('hc'), GreedyHillClimbingSolver)
+    assert isinstance(get_optimization_solver('rs'), RandomSearchSolver)

@@ -29,13 +29,40 @@ def parse_args():
         "--output-dir",
         type=str,
         default=os.path.join(os.environ.get("TEMP", r"C:\Users\umert\AppData\Local\Temp\opencode"), "alphareq_output"),
-        help="Directory to save benchmark summary CSVs and plots."
+        help="Directory to save benchmark summary CSVs, JSON stats, and plots."
     )
     parser.add_argument(
         "--target-modules",
         type=int,
         default=4,
         help="Number of target microservices/modules for architectural partitioning."
+    )
+    parser.add_argument(
+        "--clustering",
+        type=str,
+        default="agglomerative",
+        choices=["agglomerative", "kmeans", "spectral"],
+        help="Clustering backbone algorithm for functional requirement partitioning."
+    )
+    parser.add_argument(
+        "--run-multi-solvers",
+        action="store_true",
+        help="Run multi-algorithm optimization benchmark (SA, GA, Tabu Search, Hill Climbing, Random Search)."
+    )
+    parser.add_argument(
+        "--run-multi-clustering",
+        action="store_true",
+        help="Run multi-clustering benchmark (Agglomerative, K-Means, Spectral)."
+    )
+    parser.add_argument(
+        "--run-ablation",
+        action="store_true",
+        help="Run rigorous component ablation study."
+    )
+    parser.add_argument(
+        "--run-all",
+        action="store_true",
+        help="Run primary benchmark, multi-solver benchmark, multi-clustering benchmark, and ablation study."
     )
     parser.add_argument(
         "--skip-plots",
@@ -46,9 +73,9 @@ def parse_args():
 
 def main():
     args = parse_args()
-    logger.info("=" * 75)
+    logger.info("=" * 80)
     logger.info("       ALPHAREQ MASTER PIPELINE: REPRODUCIBLE EXPERIMENTAL BENCHMARK")
-    logger.info("=" * 75)
+    logger.info("=" * 80)
     logger.info(f"Target Corpus: {args.data_path}")
     logger.info(f"Output Directory: {args.output_dir}")
 
@@ -56,20 +83,22 @@ def main():
     plots_dir = os.path.join(args.output_dir, "plots")
     os.makedirs(plots_dir, exist_ok=True)
 
-    # 1. Run Master Evaluation Benchmark
     benchmark = MasterEvaluationBenchmark(data_path=args.data_path, target_modules=args.target_modules)
+
+    # -------------------------------------------------------------
+    # 1. Primary Master Evaluation Benchmark
+    # -------------------------------------------------------------
+    logger.info("\n>>> [STAGE 1/4] EXECUTING PRIMARY BENCHMARK (AlphaReq vs Ezzini 2022 & Al-Safadi 2023)...")
     df_results = benchmark.run_full_benchmark()
 
-    # Save CSV
     csv_target = os.path.join(args.output_dir, "benchmark_summary.csv")
     safe_save_dataframe(df_results, csv_target)
 
-    # 2. Run Statistical Tests
     stats_tests = benchmark.compute_statistical_tests(df_results)
     json_target = os.path.join(args.output_dir, "statistical_tests.json")
     safe_save_json(stats_tests, json_target)
 
-    # 3. Export Sample Docker Compose Blueprint for the most complex project
+    # Export Docker Compose Blueprint for Project 8
     if not df_results.empty:
         max_conflict_pid = int(df_results.sort_values(by='N_Conflicts_Identified', ascending=False).iloc[0]['Project_ID'])
         p_complex = benchmark.loader.get_project(max_conflict_pid)
@@ -81,10 +110,10 @@ def main():
         benchmark.synthesizer.export_docker_compose(sample_arch, compose_path)
         logger.info(f"Synthesized deployable Docker Compose blueprint for Project {max_conflict_pid}: {compose_path}")
 
-    # 4. Print Macro Comparison Table
-    logger.info("\n" + "=" * 80)
-    logger.info("                     OVERALL PERFORMANCE COMPARISON TABLE")
-    logger.info("=" * 80)
+    # Print Macro Comparison Table
+    logger.info("\n" + "=" * 90)
+    logger.info("                     PRIMARY PERFORMANCE COMPARISON TABLE")
+    logger.info("=" * 90)
 
     macro_summary = {
         'Evaluation Metric': [
@@ -127,16 +156,107 @@ def main():
     df_macro = pd.DataFrame(macro_summary)
     print(df_macro.to_string(index=False))
 
-    logger.info("\n--- Statistical Significance (AlphaReq vs Al-Safadi et al. 2023) ---")
+    logger.info("\n--- Inferential Statistical Tests (AlphaReq vs Al-Safadi 2023) ---")
     for k, v in stats_tests.items():
-        logger.info(f"  {k:22s}: p = {v['p_value']:.5e}, Cohen's d = {v['Cohens_d']:+.2f} (Significant: {v['Significant']})")
+        logger.info(f"  {k:22s}: p = {v['p_value']:.5e}, Cohen's d = {v['Cohens_d']:+.2f}, A12 = {v['Vargha_Delaney_A12']:.3f} (Significant: {v['Significant']})")
 
-    # 4. Generate Publication Figures
+    # -------------------------------------------------------------
+    # 2. Multi-Solver Optimization Benchmark
+    # -------------------------------------------------------------
+    if args.run_multi_solvers or args.run_all:
+        logger.info("\n>>> [STAGE 2/4] EXECUTING MULTI-SOLVER OPTIMIZATION BENCHMARK (SA, GA, Tabu, HC, RS)...")
+        df_solvers, solver_stats = benchmark.run_multi_solver_benchmark()
+        safe_save_dataframe(df_solvers, os.path.join(args.output_dir, "multi_solver_benchmark.csv"))
+        safe_save_json(solver_stats, os.path.join(args.output_dir, "multi_solver_stats.json"))
+
+        logger.info("\n" + "=" * 90)
+        logger.info("               MULTI-SOLVER OPTIMIZATION LEADERBOARD (47 PROJECTS)")
+        logger.info("=" * 90)
+
+        solver_names = ['Simulated_Annealing', 'Genetic_Algorithm', 'Tabu_Search', 'Hill_Climbing', 'Random_Search']
+        solver_summary = []
+        for s in solver_names:
+            solver_summary.append({
+                'Optimization Algorithm': s.replace("_", " "),
+                'Mean Energy H(sigma)': f"{df_solvers[f'{s}_Energy'].mean():.2f}",
+                'Mean Runtime (ms)': f"{df_solvers[f'{s}_Time_ms'].mean():.2f} ms",
+                'Mean CSR (%)': f"{df_solvers[f'{s}_CSR'].mean()*100:.2f}%",
+                'Mean Fitness': f"{df_solvers[f'{s}_Fitness'].mean():.3f}"
+            })
+        print(pd.DataFrame(solver_summary).to_string(index=False))
+
+        logger.info(f"\nFriedman Omnibus Test: Chi2 = {solver_stats['Friedman_ChiSquare']:.3f}, p = {solver_stats['Friedman_p_value']:.5e} (Significant: {solver_stats['Friedman_Significant']})")
+        logger.info("Pairwise Tests (Simulated Annealing vs Competitors):")
+        for k, v in solver_stats['Pairwise_Tests'].items():
+            logger.info(f"  {k:26s}: p = {v['p_value']:.5e}, Cohen's d = {v['Cohens_d']:+.2f}, A12 = {v['Vargha_Delaney_A12']:.3f}")
+
+    # -------------------------------------------------------------
+    # 3. Multi-Clustering Architecture Benchmark
+    # -------------------------------------------------------------
+    if args.run_multi_clustering or args.run_all:
+        logger.info("\n>>> [STAGE 3/4] EXECUTING MULTI-CLUSTERING BENCHMARK (Agglomerative, K-Means, Spectral)...")
+        df_cluster, cluster_stats = benchmark.run_multi_clustering_benchmark()
+        safe_save_dataframe(df_cluster, os.path.join(args.output_dir, "multi_clustering_benchmark.csv"))
+        safe_save_json(cluster_stats, os.path.join(args.output_dir, "multi_clustering_stats.json"))
+
+        logger.info("\n" + "=" * 90)
+        logger.info("               MULTI-CLUSTERING ARCHITECTURE LEADERBOARD (47 PROJECTS)")
+        logger.info("=" * 90)
+
+        cluster_summary = []
+        for c in ['agglomerative', 'kmeans', 'spectral']:
+            cluster_summary.append({
+                'Clustering Backbone': c.capitalize(),
+                'Cohesion (Q)': f"{df_cluster[f'{c}_Cohesion'].mean():.3f}",
+                'Coupling Density (C)': f"{df_cluster[f'{c}_Coupling'].mean():.3f}",
+                'Architecture Fitness': f"{df_cluster[f'{c}_Fitness'].mean():.3f}"
+            })
+        print(pd.DataFrame(cluster_summary).to_string(index=False))
+        logger.info(f"Friedman Test on Cohesion: Chi2 = {cluster_stats['Friedman_Cohesion_ChiSquare']:.3f}, p = {cluster_stats['Friedman_Cohesion_p_value']:.5e}")
+
+    # -------------------------------------------------------------
+    # 4. Rigorous Component Ablation Study
+    # -------------------------------------------------------------
+    if args.run_ablation or args.run_all:
+        logger.info("\n>>> [STAGE 4/4] EXECUTING COMPONENT ABLATION STUDY...")
+        df_ablation, ablation_stats = benchmark.run_ablation_study()
+        safe_save_dataframe(df_ablation, os.path.join(args.output_dir, "ablation_study.csv"))
+        safe_save_json(ablation_stats, os.path.join(args.output_dir, "ablation_stats.json"))
+
+        logger.info("\n" + "=" * 90)
+        logger.info("                 COMPONENT ABLATION STUDY RESULTS (47 PROJECTS)")
+        logger.info("=" * 90)
+
+        variants = [
+            ('Full AlphaReq (Complete Model)', 'Full_AlphaReq'),
+            ('w/o Infrastructure Enclaves (Bundled NFRs)', 'WO_Enclaves'),
+            ('w/o Tension Coupling Matrix (J = 0)', 'WO_Coupling_J'),
+            ('w/o Normative Modal Weights (h = 1)', 'WO_Modals_h'),
+            ('w/o Optimization Solver (sigma = 1 Fixed)', 'WO_Optimization')
+        ]
+
+        ablation_summary = []
+        for label, var in variants:
+            ablation_summary.append({
+                'Ablated Model Configuration': label,
+                'Mean CSR (%)': f"{df_ablation[f'{var}_CSR'].mean()*100:.2f}%",
+                'Mean Fitness': f"{df_ablation[f'{var}_Fitness'].mean():.3f}",
+                'Delta CSR vs Full': f"{(df_ablation[f'{var}_CSR'].mean() - df_ablation['Full_AlphaReq_CSR'].mean())*100:+.2f}%" if var != 'Full_AlphaReq' else "Ref"
+            })
+        print(pd.DataFrame(ablation_summary).to_string(index=False))
+
+        logger.info("\nAblation Statistical Significance (Full AlphaReq vs Ablated Variants):")
+        for k, v in ablation_stats.items():
+            logger.info(f"  {k:24s}: p = {v['p_value']:.5e}, Cohen's d = {v['Cohens_d']:+.2f}, A12 = {v['Vargha_Delaney_A12']:.3f} (Significant: {v['Significant']})")
+
+    # -------------------------------------------------------------
+    # 5. Generate Publication Figures
+    # -------------------------------------------------------------
     if not args.skip_plots:
-        logger.info("Generating publication-grade figures (DPI 300)...")
+        logger.info("\nGenerating publication-grade figures (DPI 300)...")
         generate_all_figures(df_results, output_dir=plots_dir)
 
-    logger.info("\n[+] AlphaReq Master Benchmark Completed Successfully!")
+    logger.info("\n[+] AlphaReq Master Benchmark Execution Finished Successfully!")
 
 if __name__ == '__main__':
     main()

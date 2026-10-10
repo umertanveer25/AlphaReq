@@ -3,7 +3,7 @@ import pandas as pd
 from typing import Dict, List, Tuple
 from collections import defaultdict
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.cluster import AgglomerativeClustering
+from sklearn.cluster import AgglomerativeClustering, KMeans, SpectralClustering
 from .utils import setup_logger
 
 logger = setup_logger("AlphaReq.ArchitectureSynthesizer")
@@ -12,12 +12,13 @@ class ArchitectureSynthesizer:
     """
     Autonomous Architectural Folding Engine.
     Transforms 1D Natural Language Specifications into a 3D Component Topology Graph G = (V, E, W).
-    Utilizes true Semantic Agglomerative Clustering for functional encapsulation,
+    Supports multiple clustering backbones (Agglomerative, KMeans, Spectral) for functional encapsulation,
     and isolates non-functional trade-offs into specialized infrastructure enclaves.
     """
 
-    def __init__(self, target_modules: int = 4):
+    def __init__(self, target_modules: int = 4, clustering_method: str = 'agglomerative'):
         self.target_modules = target_modules
+        self.clustering_method = clustering_method.lower().strip()
 
     def fold_architecture(self, project_df: pd.DataFrame, J: np.ndarray, sigma: np.ndarray) -> Dict:
         """
@@ -76,15 +77,19 @@ class ArchitectureSynthesizer:
             vec = TfidfVectorizer(stop_words='english', max_features=100)
             X = vec.fit_transform(texts).toarray()
             
-            # Use Agglomerative Clustering with cosine distance
-            # If TF-IDF matrix has zero rows (all stop words), fallback
             if X.shape[1] == 0:
                 cluster_labels = [i % k for i in range(n_samples)]
-            else:
+            elif self.clustering_method in ['kmeans', 'k_means']:
+                clusterer = KMeans(n_clusters=k, random_state=42, n_init='auto')
+                cluster_labels = clusterer.fit_predict(X)
+            elif self.clustering_method in ['spectral', 'graph_laplacian']:
+                clusterer = SpectralClustering(n_clusters=k, random_state=42, affinity='nearest_neighbors', n_neighbors=min(5, max(1, n_samples - 1)))
+                cluster_labels = clusterer.fit_predict(X)
+            else:  # Default: Agglomerative Hierarchical Clustering (Cosine Linkage)
                 clusterer = AgglomerativeClustering(n_clusters=k, metric='cosine', linkage='average')
                 cluster_labels = clusterer.fit_predict(X)
         except Exception:
-            # Fallback to deterministic partition if scikit-learn clustering encounters identical vectors
+            # Fallback to deterministic partition if scikit-learn clustering encounters identical vectors or disconnected graphs
             cluster_labels = [i % k for i in range(n_samples)]
 
         module_names = [f"Microservice_{i+1}" for i in range(k)]
