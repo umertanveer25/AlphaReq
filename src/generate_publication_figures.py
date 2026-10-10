@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+from typing import Optional, Dict, List
 
 # Set publication style
 plt.rcParams['font.family'] = 'serif'
@@ -268,7 +269,55 @@ def generate_figure6_conflict_heatmap(output_dir: str = "plots"):
     plt.close()
     print(f"[+] Saved: {out_path}")
 
-def generate_all_figures(df_bench: pd.DataFrame, output_dir: str = "plots"):
+def generate_figure7_cross_validation_distribution(df_cv: pd.DataFrame, output_dir: str = "plots"):
+    """
+    Figure 7: 10-Fold 30-Randomized-Split (300 Evaluations) Empirical Distribution Boxplots.
+    Illustrates empirical stability and tight confidence intervals across folds for AlphaReq vs Baselines.
+    """
+    fig, axes = plt.subplots(2, 2, figsize=(11.5, 9))
+
+    # Metrics to plot
+    metric_configs = [
+        ('A. Constraint Satisfaction Rate (CSR %)', ['Ezzini_CSR', 'AlSafadi_CSR', 'AlphaReq_CSR'], (axes[0, 0]), True),
+        ('B. Inter-Service Coupling Density (Lower is Better)', ['Ezzini_Coupling', 'AlSafadi_Coupling', 'AlphaReq_Coupling'], (axes[0, 1]), False),
+        ('C. Architectural Cohesion (Q, Modularity)', ['Ezzini_Cohesion', 'AlSafadi_Cohesion', 'AlphaReq_Cohesion'], (axes[1, 0]), False),
+        ('D. Composite Architecture Fitness Score', ['Ezzini_Fitness', 'AlSafadi_Fitness', 'AlphaReq_Fitness'], (axes[1, 1]), False),
+    ]
+
+    model_labels = ['Ezzini (2022)', 'Al-Safadi (2023)', 'AlphaReq (Ours)']
+    colors = ['#EF9A9A', '#90CAF9', '#66BB6A']
+
+    for title, cols, ax, as_pct in metric_configs:
+        data_to_plot = []
+        for c in cols:
+            vals = df_cv[c].values
+            if as_pct:
+                vals = vals * 100.0
+            data_to_plot.append(vals)
+
+        bp = ax.boxplot(data_to_plot, patch_artist=True, tick_labels=model_labels, widths=0.55, showmeans=True,
+                        meanprops=dict(marker='D', markeredgecolor='black', markerfacecolor='gold'))
+        for patch, color in zip(bp['boxes'], colors):
+            patch.set_facecolor(color)
+            patch.set_edgecolor('#263238')
+            patch.set_linewidth(1.4)
+
+        ax.set_title(title, weight='bold', pad=10)
+        ax.grid(True, linestyle='--', alpha=0.45, axis='y')
+        if as_pct:
+            ax.set_ylabel("CSR (%)", weight='bold')
+        else:
+            ax.set_ylabel("Metric Score", weight='bold')
+
+    plt.suptitle("Figure 7. 10-Fold Cross-Validation with 30 Randomized Splits (N=300 Evaluations)", weight='bold', y=0.99)
+    plt.tight_layout()
+
+    out_path = os.path.join(output_dir, "figure7_cross_validation_distribution.png")
+    plt.savefig(out_path, dpi=300, bbox_inches='tight')
+    plt.close()
+    print(f"[+] Saved: {out_path}")
+
+def generate_all_figures(df_bench: pd.DataFrame, output_dir: str = "plots", df_cv: Optional[pd.DataFrame] = None):
     ensure_plots_dir(output_dir)
     generate_figure1_workflow(output_dir)
     generate_figure2_phase_transition(df_bench, output_dir)
@@ -276,4 +325,6 @@ def generate_all_figures(df_bench: pd.DataFrame, output_dir: str = "plots"):
     generate_figure4_csr(df_bench, output_dir)
     generate_figure5_case_study(output_dir)
     generate_figure6_conflict_heatmap(output_dir)
-    print("\n[+] All 6 Publication-Grade Figures Successfully Generated!")
+    if df_cv is not None and not df_cv.empty:
+        generate_figure7_cross_validation_distribution(df_cv, output_dir)
+    print("\n[+] Publication-Grade Figures Successfully Generated!")

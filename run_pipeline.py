@@ -60,9 +60,26 @@ def parse_args():
         help="Run rigorous component ablation study."
     )
     parser.add_argument(
+        "--run-kfold",
+        action="store_true",
+        help="Run 10-Fold Cross-Validation across 30 randomized splits (N=300 evaluations)."
+    )
+    parser.add_argument(
+        "--n-splits",
+        type=int,
+        default=10,
+        help="Number of cross-validation folds (default: 10)."
+    )
+    parser.add_argument(
+        "--n-repeats",
+        type=int,
+        default=30,
+        help="Number of randomized repetitions per fold (default: 30 repeats x 10 folds = 300 evaluations)."
+    )
+    parser.add_argument(
         "--run-all",
         action="store_true",
-        help="Run primary benchmark, multi-solver benchmark, multi-clustering benchmark, and ablation study."
+        help="Run primary benchmark, multi-solver benchmark, multi-clustering benchmark, ablation study, and 10-fold 30-repeat CV."
     )
     parser.add_argument(
         "--skip-plots",
@@ -250,11 +267,47 @@ def main():
             logger.info(f"  {k:24s}: p = {v['p_value']:.5e}, Cohen's d = {v['Cohens_d']:+.2f}, A12 = {v['Vargha_Delaney_A12']:.3f} (Significant: {v['Significant']})")
 
     # -------------------------------------------------------------
-    # 5. Generate Publication Figures
+    # 5. 10-Fold Cross-Validation with 30 Randomized Splits
+    # -------------------------------------------------------------
+    df_cv = None
+    if args.run_kfold or args.run_all:
+        logger.info(f"\n>>> [STAGE 5/5] EXECUTING {args.n_splits}-FOLD CROSS-VALIDATION ACROSS {args.n_repeats} RANDOMIZED SPLITS (TOTAL {args.n_splits * args.n_repeats} EVALUATIONS)...")
+        df_cv, cv_stats = benchmark.run_kfold_cross_validation(n_splits=args.n_splits, n_repeats=args.n_repeats)
+        safe_save_dataframe(df_cv, os.path.join(args.output_dir, "kfold_30rep_benchmark.csv"))
+        safe_save_json(cv_stats, os.path.join(args.output_dir, "kfold_30rep_stats.json"))
+
+        logger.info("\n" + "=" * 100)
+        logger.info(f"     10-FOLD CROSS-VALIDATION WITH 30 RANDOMIZED SPLITS (N={args.n_splits * args.n_repeats} EVALUATION FOLDS)")
+        logger.info("=" * 100)
+
+        cv_table_rows = []
+        for m, m_data in cv_stats['metrics_summary'].items():
+            is_pct = m in ['Conflict_Recall', 'CSR']
+            fmt = (lambda v: f"{v*100:.2f}%") if is_pct else (lambda v: f"{v:.3f}")
+
+            a_mean_std = f"{fmt(m_data['AlphaReq_Mean'])} +/- {fmt(m_data['AlphaReq_Std'])}"
+            a_ci = f"[{fmt(m_data['AlphaReq_95CI'][0])}, {fmt(m_data['AlphaReq_95CI'][1])}]"
+            als_mean_std = f"{fmt(m_data['AlSafadi_Mean'])} +/- {fmt(m_data['AlSafadi_Std'])}"
+            ezz_mean_std = f"{fmt(m_data['Ezzini_Mean'])} +/- {fmt(m_data['Ezzini_Std'])}"
+
+            cv_table_rows.append({
+                'Evaluation Metric': m.replace("_", " "),
+                'AlphaReq (Mean +/- Std)': a_mean_std,
+                'AlphaReq 95% CI': a_ci,
+                'Al-Safadi (Mean +/- Std)': als_mean_std,
+                'Ezzini (Mean +/- Std)': ezz_mean_std,
+                'vs Al-Safadi p-val': f"{m_data['vs_AlSafadi']['p_value']:.2e}",
+                'Cohen d': f"{m_data['vs_AlSafadi']['Cohens_d']:+.2f}",
+                'A12': f"{m_data['vs_AlSafadi']['Vargha_Delaney_A12']:.3f}"
+            })
+        print(pd.DataFrame(cv_table_rows).to_string(index=False))
+
+    # -------------------------------------------------------------
+    # 6. Generate Publication Figures (Up to 7 Figures at 300 DPI)
     # -------------------------------------------------------------
     if not args.skip_plots:
         logger.info("\nGenerating publication-grade figures (DPI 300)...")
-        generate_all_figures(df_results, output_dir=plots_dir)
+        generate_all_figures(df_results, output_dir=plots_dir, df_cv=df_cv)
 
     logger.info("\n[+] AlphaReq Master Benchmark Execution Finished Successfully!")
 

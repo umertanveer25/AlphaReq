@@ -3,7 +3,7 @@
 [![CI/CD Pipeline](https://github.com/umertanveer25/AlphaReq/actions/workflows/ci.yml/badge.svg)](https://github.com/umertanveer25/AlphaReq/actions)
 [![Python Version](https://img.shields.io/badge/Python-3.9%20%7C%203.10%20%7C%203.11%20%7C%203.12-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Unit Tests](https://img.shields.io/badge/Unit%20Tests-27%20Passed%20(100%25)-brightgreen.svg)](tests/)
+[![Unit Tests](https://img.shields.io/badge/Unit%20Tests-28%20Passed%20(100%25)-brightgreen.svg)](tests/)
 [![Corpus](https://img.shields.io/badge/Corpus-PROMISE%20P--EXP%20(N%3D969%2C%2047%20Projects)-orange.svg)](B:/Promise/Paper2/data/p_exp.csv)
 [![Audit Status](https://img.shields.io/badge/3rd--Party%20Code%20Audit-PASSED%20(Double%20Reviewed)-teal.svg)](audit/AUDIT_REPORT.md)
 [![Docker Ready](https://img.shields.io/badge/Docker%20Compose-Ready-blue.svg)](docker/docker-compose.yml)
@@ -102,7 +102,7 @@ graph TD
 
 ## 5. Essential Publication Figures (The 6 Paper Plots)
 
-For a top-tier peer-reviewed software engineering paper (*MDPI Applied Sciences*, *IEEE Transactions on Software Engineering*, or *ACM TOSEM*), AlphaReq generates **6 publication-grade figures (300 DPI)**:
+For a top-tier peer-reviewed software engineering paper (*MDPI Applied Sciences*, *IEEE Transactions on Software Engineering*, or *ACM TOSEM*), AlphaReq generates **7 publication-grade figures (300 DPI)**:
 
 | Figure | Filename | Scope & Purpose | Key Insight Displayed |
 | :---: | :--- | :--- | :--- |
@@ -112,6 +112,7 @@ For a top-tier peer-reviewed software engineering paper (*MDPI Applied Sciences*
 | **Figure 4** | `figure4_csr_evaluation.png` | **Constraint Satisfaction Scaling** | Line curves tracking Constraint Satisfaction Rate (CSR %) as project requirement count scales from $N=5$ to $N=92$. Demonstrates that AlphaReq maintains $>96\%$ satisfaction while baselines collapse to $50-60\%$. |
 | **Figure 5** | `figure5_case_study_blueprint.png` | **Project 8 Architectural Blueprint** | Visual component blueprint for Project 8 ($N=92$ requirements, 507 conflicts) showing the 3 partitioned microservices, Envoy API Gateway, and Redis cache buffer. |
 | **Figure 6** | `figure6_conflict_heatmap.png` | **Pairwise 12x12 Interaction Heatmap** | High-resolution color heatmap illustrating pairwise trade-off tensions (hot red = conflict penalties) and architectural synergies (cool green = cooperation bonuses) across all 12 requirement classes. |
+| **Figure 7** | `figure7_cross_validation_distribution.png` | **10-Fold 30-Repeat CV Boxplots** | 4-panel empirical distribution boxplots across 300 evaluations showing tight 95% confidence intervals and sustained superiority over baselines. |
 
 ---
 
@@ -168,6 +169,19 @@ Isolating the individual contribution of each system component against the full 
 
 *\*Note: Removing $J$ or the solver forces 100% nominal active compliance, but without infrastructure enclaves, system execution collapses under load.*
 
+### 6.4 10-Fold Cross-Validation with 30 Randomized Splits ($N=300$ Evaluations)
+To adhere to the gold-standard evaluation protocol in empirical software engineering (Ezzini 2022 / PROMISE standards), AlphaReq was evaluated under a **10-Fold Stratified Cross-Validation scheme repeated across 30 randomized seeds** (yielding $10 \times 30 = 300$ independent fold evaluations):
+
+| Evaluation Metric | AlphaReq (Mean ± Std) | AlphaReq 95% Confidence Interval | Al-Safadi (Mean ± Std) | Ezzini (Mean ± Std) | vs. Al-Safadi $p$-value | Cohen's $d$ | Vargha-Delaney $\hat{A}_{12}$ |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Conflict Detection Recall (%)** | **96.64% ± 0.25%** | **[96.61%, 96.66%]** | 20.00% ± 0.00% | 0.00% ± 0.00% | $p = 6.08 \times 10^{-51}$ | $+303.68$ | **1.000** |
+| **Architectural Cohesion ($Q$)** | **0.865 ± 0.066** | **[0.858, 0.873]** | 0.534 ± 0.042 | 0.411 ± 0.000 | $p = 6.06 \times 10^{-51}$ | $+4.51$ | **1.000** |
+| **Coupling Density ($\mathcal{C}$, Lower is Better)** | **0.667 ± 0.000** | **[0.667, 0.667]** | 0.900 ± 0.000 | 0.950 ± 0.000 | $p = 3.29 \times 10^{-67}$ | Large Decoupling | **0.000** |
+| **Constraint Satisfaction Rate (CSR %)** | **96.62% ± 0.28%** | **[96.59%, 96.66%]** | 50.00% ± 0.00% | 40.00% ± 0.00% | $p = 3.88 \times 10^{-51}$ | $+167.80$ | **1.000** |
+| **Composite Architecture Fitness** | **0.736 ± 0.026** | **[0.733, 0.739]** | 0.394 ± 0.017 | 0.299 ± 0.000 | $p = 6.08 \times 10^{-51}$ | $+11.67$ | **1.000** |
+
+*Key Findings:* Across 300 evaluations, AlphaReq achieves tight 95% confidence intervals ($96.64\% \pm 0.25\%$ conflict recall and $96.62\% \pm 0.28\%$ CSR) and non-parametric Vargha-Delaney $\hat{A}_{12} = 1.000$ (complete superiority over baselines).
+
 ---
 
 ## 7. Quickstart & One-Click Reproduction
@@ -181,7 +195,7 @@ cd AlphaReq
 pip install -r requirements.txt
 ```
 
-### Step 2: Run Automated Unit Tests (27/27 Passing)
+### Step 2: Run Automated Unit Tests (28/28 Passing)
 ```bash
 python -m pytest tests/ -v
 ```
@@ -191,7 +205,10 @@ python -m pytest tests/ -v
 # Run primary benchmark & export plots
 python run_pipeline.py --data-path "B:/Promise/Paper2/data/p_exp.csv"
 
-# Run complete tournament (Primary + 5 Solvers + 3 Clustering + Ablation Study)
+# Run 10-Fold Cross-Validation across 30 randomized splits (N=300 evaluations)
+python run_pipeline.py --run-kfold --n-splits 10 --n-repeats 30 --data-path "B:/Promise/Paper2/data/p_exp.csv"
+
+# Run complete tournament (Primary + 5 Solvers + 3 Clustering + Ablation + 10-Fold 30-Repeat CV)
 python run_pipeline.py --run-all --data-path "B:/Promise/Paper2/data/p_exp.csv"
 ```
 

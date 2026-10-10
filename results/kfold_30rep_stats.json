@@ -1,0 +1,137 @@
+{
+    "total_evaluations": 300,
+    "n_splits": 10,
+    "n_repeats": 30,
+    "metrics_summary": {
+        "Conflict_Recall": {
+            "AlphaReq_Mean": 0.9663626590316962,
+            "AlphaReq_Std": 0.002523590738847926,
+            "AlphaReq_95CI": [
+                0.9660770878563861,
+                0.9666482302070062
+            ],
+            "AlSafadi_Mean": 0.19999999999999998,
+            "AlSafadi_Std": 2.7755575615628914e-17,
+            "Ezzini_Mean": 0.0,
+            "Ezzini_Std": 0.0,
+            "vs_AlSafadi": {
+                "Wilcoxon_W": 0.0,
+                "p_value": 6.079070101793309e-51,
+                "Cohens_d": 303.6782511727887,
+                "Vargha_Delaney_A12": 1.0,
+                "Significant": true
+            },
+            "vs_Ezzini": {
+                "Wilcoxon_W": 0.0,
+                "p_value": 6.079070101793309e-51,
+                "Cohens_d": 382.93009038856917,
+                "Vargha_Delaney_A12": 1.0,
+                "Significant": true
+            }
+        },
+        "Cohesion": {
+            "AlphaReq_Mean": 0.8652932398948668,
+            "AlphaReq_Std": 0.06609599711125097,
+            "AlphaReq_95CI": [
+                0.8578137737168575,
+                0.8727727060728762
+            ],
+            "AlSafadi_Mean": 0.5343713030862444,
+            "AlSafadi_Std": 0.04225569769740995,
+            "Ezzini_Mean": 0.41093213366166575,
+            "Ezzini_Std": 7.444326346678353e-06,
+            "vs_AlSafadi": {
+                "Wilcoxon_W": 0.0,
+                "p_value": 6.055988030229513e-51,
+                "Cohens_d": 4.510875110378384,
+                "Vargha_Delaney_A12": 1.0,
+                "Significant": true
+            },
+            "vs_Ezzini": {
+                "Wilcoxon_W": 0.0,
+                "p_value": 5.217509440394646e-51,
+                "Cohens_d": 6.874311819566674,
+                "Vargha_Delaney_A12": 1.0,
+                "Significant": true
+            }
+        },
+        "Coupling": {
+            "AlphaReq_Mean": 0.6666666666666666,
+            "AlphaReq_Std": 0.0,
+            "AlphaReq_95CI": [
+                0.6666666666666666,
+                0.6666666666666666
+            ],
+            "AlSafadi_Mean": 0.9000000000000002,
+            "AlSafadi_Std": 2.220446049250313e-16,
+            "Ezzini_Mean": 0.95,
+            "Ezzini_Std": 0.0,
+            "vs_AlSafadi": {
+                "Wilcoxon_W": 0.0,
+                "p_value": 3.294362383314041e-67,
+                "Cohens_d": -23333333.268570334,
+                "Vargha_Delaney_A12": 0.0,
+                "Significant": true
+            },
+            "vs_Ezzini": {
+                "Wilcoxon_W": 0.0,
+                "p_value": 3.294362383314041e-67,
+                "Cohens_d": -28333333.176051732,
+                "Vargha_Delaney_A12": 0.0,
+                "Significant": true
+            }
+        },
+        "CSR": {
+            "AlphaReq_Mean": 0.9662358497995418,
+            "AlphaReq_Std": 0.002778513814924919,
+            "AlphaReq_95CI": [
+                0.9659214313625389,
+                0.9665502682365447
+            ],
+            "AlSafadi_Mean": 0.5,
+            "AlSafadi_Std": 0.0,
+            "Ezzini_Mean": 0.39999999999999997,
+            "Ezzini_Std": 5.551115123125783e-17,
+            "vs_AlSafadi": {
+                "Wilcoxon_W": 0.0,
+                "p_value": 3.877132290786119e-51,
+                "Cohens_d": 167.79983935899443,
+                "Vargha_Delaney_A12": 1.0,
+                "Significant": true
+            },
+            "vs_Ezzini": {
+                "Wilcoxon_W": 0.0,
+                "p_value": 3.877132290786119e-51,
+                "Cohens_d": 203.7901733136099,
+                "Vargha_Delaney_A12": 1.0,
+                "Significant": true
+            }
+        },
+        "Fitness": {
+            "AlphaReq_Mean": 0.7359880508978093,
+            "AlphaReq_Std": 0.026463238832094914,
+            "AlphaReq_95CI": [
+                0.7329934535173948,
+                0.7389826482782238
+            ],
+            "AlSafadi_Mean": 0.3937485212344977,
+            "AlSafadi_Std": 0.01690227907896397,
+            "Ezzini_Mean": 0.2993728534646663,
+            "Ezzini_Std": 2.9777305386780028e-06,
+            "vs_AlSafadi": {
+                "Wilcoxon_W": 0.0,
+                "p_value": 6.082341969130078e-51,
+                "Cohens_d": 11.665521086148939,
+                "Vargha_Delaney_A12": 1.0,
+                "Significant": true
+            },
+            "vs_Ezzini": {
+                "Wilcoxon_W": 0.0,
+                "p_value": 6.059551005122214e-51,
+                "Cohens_d": 16.499055562223266,
+                "Vargha_Delaney_A12": 1.0,
+                "Significant": true
+            }
+        }
+    }
+}

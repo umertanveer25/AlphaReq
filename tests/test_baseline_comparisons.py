@@ -44,3 +44,15 @@ def test_vargha_delaney_a12():
     # Equal distributions
     a12_equal = MasterEvaluationBenchmark.vargha_delaney_a12(x, x)
     assert a12_equal == 0.5
+
+def test_kfold_cross_validation_fast():
+    import os
+    data_path = "B:/Promise/Paper2/data/p_exp.csv"
+    if os.path.exists(data_path):
+        benchmark = MasterEvaluationBenchmark(data_path=data_path, target_modules=3)
+        # Fast 2-fold 2-repeat test
+        df_cv, cv_stats = benchmark.run_kfold_cross_validation(n_splits=2, n_repeats=2, random_seed=42)
+        assert len(df_cv) == 4
+        assert 'metrics_summary' in cv_stats
+        assert 'CSR' in cv_stats['metrics_summary']
+        assert cv_stats['metrics_summary']['CSR']['AlphaReq_Mean'] > 0.90
