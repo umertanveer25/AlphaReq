@@ -70,7 +70,21 @@ AlphaReq frames requirements engineering as an **interacting discrete constraint
 1. **Normative Modal Prescriptiveness ($h_i$):**
    Extracts RFC 2119 / ISO 29148 modal obligations (`shall`/`must` $\to 1.0$, `should`/`will` $\to 0.6$, `may`/`can` $\to 0.3$).
 2. **Requirements Interaction Tensor ($J_{ij}$):**
-   Constructs a symmetric pairwise matrix capturing architectural tension (e.g., Performance vs. Security $J = -0.75$) and cooperative synergy (Availability vs. Fault Tolerance $J = +0.60$).
+   Constructs a symmetric pairwise coupling tensor across requirements. The system defines domain-grounded trade-off penalties (antiferromagnetic couplings $J < 0$) and synergistic bonuses (ferromagnetic couplings $J > 0$) derived from established empirical software engineering principles (e.g., ISO/IEC 25010 Quality Models & RFC standards):
+
+   | Requirement Pair | Nature | Coupling $J_{ij}$ | Architectural Rationale |
+   | :--- | :--- | :---: | :--- |
+   | **Performance (PE) $\leftrightarrow$ Security (SE)** | Conflict (Antiferromagnetic) | **-0.75** | Real-time low-latency constraints conflict with deep cryptographic handshakes and token inspection. |
+   | **Security (SE) $\leftrightarrow$ Usability (US)** | Conflict (Antiferromagnetic) | **-0.65** | Multi-factor authentication & strict session timeouts increase user friction. |
+   | **Performance (PE) $\leftrightarrow$ Fault Tolerance (FT)** | Conflict (Antiferromagnetic) | **-0.45** | Low latency budgets conflict with distributed consensus and synchronous checkpointing. |
+   | **Scalability (SC) $\leftrightarrow$ Performance (PE)** | Conflict (Antiferromagnetic) | **-0.40** | Horizontal network partitioning overhead vs. bare-metal single-node execution. |
+   | **Maintainability (MN) $\leftrightarrow$ Performance (PE)** | Conflict (Antiferromagnetic) | **-0.30** | Modular indirection and abstraction layers introduce invocation overhead. |
+   | **Look & Feel (LF) $\leftrightarrow$ Usability (US)** | Synergy (Ferromagnetic) | **+0.55** | Consistent UI styling directly reinforces ease of use and user satisfaction. |
+   | **Availability (A) $\leftrightarrow$ Fault Tolerance (FT)** | Synergy (Ferromagnetic) | **+0.60** | Active-passive replication and circuit breakers directly enhance system uptime. |
+   | **Security (SE) $\leftrightarrow$ Legal/Compliance (L)** | Synergy (Ferromagnetic) | **+0.55** | Cryptographic controls and access perimeters directly satisfy statutory audits. |
+
+   > **Note:** The full lookup table is exported at [`results/interaction_tensor_lookup_table.csv`](results/interaction_tensor_lookup_table.csv). For any project, AlphaReq extracts requirement pairs, cross-references quality categories, and forms the project-specific $N \times N$ matrix (see sample Project 8 tensor in [`results/project_8_coupling_tensor_J.csv`](results/project_8_coupling_tensor_J.csv)).
+
 3. **Discrete Tension Relaxation via Simulated Annealing:**
    Minimizes system energy $\mathcal{H}(\boldsymbol{\sigma}) = -0.5 \boldsymbol{\sigma}^T \mathbf{J} \boldsymbol{\sigma} - \mathbf{h}^T \boldsymbol{\sigma}$ using Metropolis Monte Carlo annealing to find the ground-state configuration $\boldsymbol{\sigma}^*$.
 4. **Autonomous Microservice Folding & Enclave Routing:**
@@ -264,6 +278,16 @@ AlphaReq/
 │   ├── test_energy_solver.py          # Mathematical hand-calc & annealing tests
 │   ├── test_architecture_synthesizer.py # Clustering, enclaves, & Docker export tests
 │   └── test_baseline_comparisons.py   # Baseline execution & statistical power tests
+├── data/
+│   └── Promise_Exp.csv                # Complete benchmark dataset (N=969 reqs, 47 projects)
+├── results/
+│   ├── benchmark_summary.csv          # 47-project comparative benchmark results
+│   ├── statistical_tests.json         # Wilcoxon, Cohen's d, Vargha-Delaney A12 results
+│   ├── interaction_tensor_lookup_table.csv # Trade-off & synergy coupling values table
+│   ├── project_8_coupling_tensor_J.csv # Sample N=92 requirement interaction matrix
+│   ├── project_8_conflicts.json       # Sample pairwise conflict list (Project 8)
+│   ├── project_8_docker_compose.yml   # Synthesized deployment blueprint
+│   └── plots/                         # 7 publication figures (300 DPI)
 ├── audit/
 │   └── AUDIT_REPORT.md                # Formal 3rd-party independent code audit report
 ├── docker/
