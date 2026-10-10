@@ -115,13 +115,23 @@ graph TD
 
 ---
 
-## 5. Essential Publication Figures (The 6 Paper Plots)
+## 5. Essential Publication Figures
 
-For a top-tier peer-reviewed software engineering paper (*MDPI Applied Sciences*, *IEEE Transactions on Software Engineering*, or *ACM TOSEM*), AlphaReq generates **7 publication-grade figures (300 DPI)**:
+For a top-tier peer-reviewed software engineering paper (*MDPI Applied Sciences*, *IEEE Transactions on Software Engineering*, or *ACM TOSEM*), AlphaReq generates publication-grade figures (300 DPI):
+
+### Figure 1: AlphaReq End-to-End System Architecture and Multi-Stage Pipeline Workflow
+![AlphaReq End-to-End Pipeline Workflow](results/plots/figure1_alphareq_workflow.png)
+
+*Figure 1 Caption & Technical Walkthrough:*
+- **Stage 1 (Natural Language Requirements Ingestion):** Unstructured software requirement specifications (SRS) undergo NLP tokenization and lemmatization. Each statement is parsed for deontic modal operators (e.g., *shall*, *must*, *should*, *may*) to compute normative priority weights $h_i \in [0.3, 1.0]$ in accordance with ISO/IEC/IEEE 29148.
+- **Stage 2 (Interaction Tensor Construction):** The system constructs an $N \times N$ spin-coupling interaction matrix $J_{ij}$, mapping ISO/IEC 25010 quality attribute relationships into positive ferromagnetic synergies ($J_{ij} = +0.55$, e.g., Usability reinforcing Look-and-Feel) and negative antiferromagnetic trade-off penalties ($J_{ij} = -0.75$, e.g., Sub-100ms Latency vs. Deep Cryptographic Authentication).
+- **Stage 3 (Physics-Inspired Ground-State Solver):** Formulates the global requirement tension as an Ising/spin-glass Hamiltonian energy function $\mathcal{H}(\boldsymbol{\sigma}) = -\sum_{ij} J_{ij}\sigma_i\sigma_j - \sum_i h_i\sigma_i$. A Metropolis Simulated Annealing optimizer performs stochastic cooling ($T_0 \to 0$) along a rugged energy funnel to discover the global ground-state configuration $\boldsymbol{\sigma}^*$, resolving conflicting tensions without manual heuristic rules.
+- **Stage 4 (Architecture Synthesizer & Enclave Routing):** Decomposes functional requirements into cohesive microservices (Service A, B, C, D) using semantic TF-IDF cosine agglomerative clustering ($Q = 0.713$). Cross-cutting non-functional requirements are routed into dedicated infrastructure enclaves (Envoy API Gateway for perimeter OAuth2/JWT verification and Redis Cache for sub-millisecond response buffering).
+- **Stage 5 (Turnkey Docker Deployment):** Automatically compiles the synthesized topology into a valid, production-ready `docker-compose.yml` specification with container definitions, health checks, environment variables, and isolated virtual bridge networks.
 
 | Figure | Filename | Scope & Purpose | Key Insight Displayed |
 | :---: | :--- | :--- | :--- |
-| **Figure 1** | `figure1_alphareq_workflow.png` | **End-to-End System Pipeline** | High-level 4-stage pipeline: Intake $\to$ Hamiltonian Tension $\to$ Annealing Relaxation $\to$ Autonomous 3D Microservice Folding. |
+| **Figure 1** | `figure1_alphareq_workflow.png` | **End-to-End System Pipeline** | High-level 5-stage pipeline: Intake $\to$ Interaction Tensor $J_{ij}$ $\to$ Annealing Solver $\to$ Enclave Clustering $\to$ Turnkey Docker Compose. |
 | **Figure 2** | `figure2_phase_transition.png` | **Constraint-Density Phase Boundary** | Scatter plot across all 47 projects showing Constraint Density ($\alpha$) vs. Project Size ($N$). Clearly separates low-risk projects from high-risk projects ($\alpha_c = 1.80$), highlighting Project 8 ($\alpha = 5.51$). |
 | **Figure 3** | `figure3_architecture_metrics.png` | **Comparative Architectural Metrics** | Dual bar-chart comparing Architectural Cohesion ($Q$, higher is better) and Inter-Service Coupling Density ($\mathcal{C}$, lower is better) against Ezzini (2022) and Al-Safadi (2023). |
 | **Figure 4** | `figure4_csr_evaluation.png` | **Constraint Satisfaction Scaling** | Line curves tracking Constraint Satisfaction Rate (CSR %) as project requirement count scales from $N=5$ to $N=92$. Demonstrates that AlphaReq maintains $>96\%$ satisfaction while baselines collapse to $50-60\%$. |
