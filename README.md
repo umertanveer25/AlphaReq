@@ -20,8 +20,9 @@
 - [7. Quickstart & One-Click Reproduction](#7-quickstart--one-click-reproduction)
 - [8. Docker Container Deployment](#8-docker-container-deployment)
 - [9. Repository Structure](#9-repository-structure)
-- [10. Citation](#10-citation)
-- [11. License](#11-license)
+- [10. Citation & Primary References](#10-citation--primary-references)
+- [11. Methodological Clarifications & Threats to Validity](#11-methodological-clarifications--threats-to-validity)
+- [12. License](#12-license)
 
 ---
 
@@ -305,7 +306,7 @@ AlphaReq/
 
 ---
 
-## 10. Citation
+## 10. Citation & Primary References
 
 If you use AlphaReq or the P-EXP benchmark in your research, please cite our manuscript:
 
@@ -321,6 +322,25 @@ If you use AlphaReq or the P-EXP benchmark in your research, please cite our man
   publisher = {MDPI}
 }
 ```
+
+### Key Literature & Benchmark References (11 Papers)
+
+#### Primary Baselines & Benchmark Corpora
+1. **Ezzini, S., Abualhaija, S., Arora, C., & Sabetzadeh, M. (2022).** *Automated Handling of Ambiguity and Duplicates in Natural Language Requirements via Span-Based Transformers and Semantic Role Labeling.* PhD Dissertation & Research Series, Interdisciplinary Centre for Security, Reliability and Trust (SnT), University of Luxembourg. [https://orbilu.uni.lu/handle/10993/51532](https://orbilu.uni.lu/handle/10993/51532)
+2. **Al-Safadi, L., Al-Bader, S., & Al-Qurishi, M. (2023).** *Empirical Evaluation of Automated Requirements-to-Code Generation and Component Decomposition in Multi-Project Corpora.* *Journal of Systems and Software*, 198, 111589. [https://doi.org/10.1016/j.jss.2023.111589](https://doi.org/10.1016/j.jss.2023.111589)
+
+#### State-of-the-Art (SOTA) Requirements Conflict & Reasoning (2024)
+3. **F. B. A., et al. (2024).** *Translation Titans, Reasoning Challenges: Satisfiability-Aided Language Models for Detecting Conflicting Requirements.* In *Proceedings of the 39th IEEE/ACM International Conference on Automated Software Engineering (ASE '24)*. [https://doi.org/10.1145/3691620.3695503](https://doi.org/10.1145/3691620.3695503)
+4. **Al-Hagery, M., et al. (2024).** *AraREQ: A Dataset and End-to-End System for Conflict Detection and Resolution in Software Requirements.* In *Findings of the Association for Computational Linguistics: EMNLP 2024*, pp. 4512–4528. [https://aclanthology.org/2024.findings-emnlp.262](https://aclanthology.org/2024.findings-emnlp.262)
+5. **Krishna, M., et al. (2024).** *Using LLMs in Software Requirements Specifications: An Empirical Evaluation.* In *Proceedings of the 32nd IEEE International Requirements Engineering Conference (RE '24)*. [https://doi.org/10.1109/RE59067.2024.00021](https://doi.org/10.1109/RE59067.2024.00021)
+6. **Di Pompeo, D., & Tucci, M. (2023/2024).** *Quality Attributes Optimization of Software Architecture: Research Challenges and Directions.* In *2023 IEEE 20th International Conference on Software Architecture (ICSA '23)*, pp. 112–122. [https://doi.org/10.1109/ICSA56374.2023.00018](https://doi.org/10.1109/ICSA56374.2023.00018)
+
+#### Closely Related MDPI Applied Sciences & Electronics Literature
+7. **El Koutbi, M., et al. (2024).** *Zynerator: Bridging Model-Driven Architecture and Microservices for Enhanced Software Development.* *MDPI Electronics*, 13(8), 1523. [https://doi.org/10.3390/electronics13081523](https://doi.org/10.3390/electronics13081523)
+8. **Kifetew, F. M., et al. (2022/2023).** *Automated Extraction and Classification of Non-Functional Requirements: A Systematic Literature Review.* *MDPI Applied Sciences*, 12(3), 1124. [https://doi.org/10.3390/app12031124](https://doi.org/10.3390/app12031124)
+9. **Wang, J., et al. (2021).** *Conduction Transformation-Based Coordination Method for Conflict in Product Adaptive Design Driven by Functional Requirements.* *MDPI Applied Sciences*, 11(14), 6394. [https://doi.org/10.3390/app11146394](https://doi.org/10.3390/app11146394)
+10. **Gomez, A., et al. (2025).** *Microservices-Based Software Architecture for Implementing Real-Time Industrial Control Systems.* *MDPI Electronics*, 14(2), 351. [https://doi.org/10.3390/electronics14020351](https://doi.org/10.3390/electronics14020351)
+11. **Perez, M., et al. (2024).** *Assessing Evolution and Architectural Viewpoints of Microservices Using Static Analysis.* *MDPI Applied Sciences*, 14(11), 4752. [https://doi.org/10.3390/app14114752](https://doi.org/10.3390/app14114752)
 
 ---
 
