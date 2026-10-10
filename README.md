@@ -129,6 +129,13 @@ For a top-tier peer-reviewed software engineering paper (*MDPI Applied Sciences*
 - **Stage 4 (Architecture Synthesizer & Enclave Routing):** Decomposes functional requirements into cohesive microservices (Service A, B, C, D) using semantic TF-IDF cosine agglomerative clustering ($Q = 0.713$). Cross-cutting non-functional requirements are routed into dedicated infrastructure enclaves (Envoy API Gateway for perimeter OAuth2/JWT verification and Redis Cache for sub-millisecond response buffering).
 - **Stage 5 (Turnkey Docker Deployment):** Automatically compiles the synthesized topology into a valid, production-ready `docker-compose.yml` specification with container definitions, health checks, environment variables, and isolated virtual bridge networks.
 
+### Figure 2: Disordered Spin-Glass Energy Landscape and Constraint-Density Phase Boundary ($\alpha_c = 1.80$)
+![Disordered Spin-Glass Energy Landscape and Phase Transition Boundary](results/plots/figure2_phase_transition.png)
+
+*Figure 2 Caption & Technical Walkthrough:*
+- **Panel (a) - Rugged Spin-Glass Energy Landscape:** Illustrates the non-convex potential energy manifold $\mathcal{H}(\boldsymbol{\sigma}) = -\sum_{i < j} J_{ij}\sigma_i\sigma_j - \sum_i h_i\sigma_i$. Standard greedy heuristics get trapped in high-energy sub-optimal **meta-stable minima**. Simulated Annealing stochastically tunnels through energy barriers as temperature cools ($T \gg 0 \to 0$), converging monotonically to the global ground-state $\boldsymbol{\sigma}^*$.
+- **Panel (b) - Constraint Density Phase Transition Boundary ($\alpha_c = 1.80$):** Plots the 47 benchmark projects across Project Size ($N$) vs. Constraint Density Score ($\alpha = \sum |J_{ij}| / N$). Projects below $\alpha_c = 1.80$ reside in the **Paramagnetic Phase** (tractable low-conflict risk). Projects above $\alpha_c = 1.80$ enter the **Spin-Glass Frustrated Phase** (dense multi-NFR contradictions). **Project 8** is highlighted as a critically frustrated system ($N=92$, $507$ pairwise conflicts, $\alpha = 5.51$).
+
 | Figure | Filename | Scope & Purpose | Key Insight Displayed |
 | :---: | :--- | :--- | :--- |
 | **Figure 1** | `figure1_alphareq_workflow.png` | **End-to-End System Pipeline** | High-level 5-stage pipeline: Intake $\to$ Interaction Tensor $J_{ij}$ $\to$ Annealing Solver $\to$ Enclave Clustering $\to$ Turnkey Docker Compose. |
