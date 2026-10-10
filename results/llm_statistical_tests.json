@@ -1,0 +1,12 @@
+{
+    "AlphaReq_vs_Claude35Sonnet": {
+        "Fitness_Wilcoxon_p": 5.127417660973012e-09,
+        "Fitness_Cohens_d": 1.8641646497597906,
+        "Fitness_Vargha_Delaney_A12": 0.9832098765432099
+    },
+    "AlphaReq_vs_GPT4o": {
+        "Fitness_Wilcoxon_p": 5.127417660973012e-09,
+        "Fitness_Cohens_d": 2.402556068493945,
+        "Fitness_Vargha_Delaney_A12": 1.0
+    }
+}

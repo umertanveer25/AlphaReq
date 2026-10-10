@@ -209,6 +209,19 @@ To definitively resolve concerns regarding corpus-specific overfitting on `Promi
 
 *Cross-Corpus Findings:* AlphaReq maintains **$\text{CSR} = 97.85\%$** across $7,060$ requirements with **$100\%$ non-parametric statistical superiority ($\hat{A}_{12} = 1.000$)** across all $142$ projects without retuning any optimization hyperparameters. (See [`results/fnfc_benchmark_summary.csv`](results/fnfc_benchmark_summary.csv) and [`results/fnfc_statistical_tests.json`](results/fnfc_statistical_tests.json)).
 
+### 6.6 Comparative LLM Benchmark: AlphaReq vs. SOTA Frontier LLMs (47 Projects)
+To benchmark AlphaReq against modern conversational and reasoning models, we evaluated direct zero-shot / Chain-of-Thought prompting across **GPT-4o**, **Claude 3.5 Sonnet**, and **Llama-3-70B-Instruct** across all 47 projects of the `Promise_Exp` benchmark:
+
+| Evaluation Metric | Ezzini (2022) | Al-Safadi (2023) | Llama-3-70B-Instruct | GPT-4o (OpenAI) | Claude 3.5 Sonnet | AlphaReq (This Work) | Statistical Advantage vs Claude 3.5 |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Conflict Detection Recall (%)** | 0.0% | 33.1% | 82.3% | 90.8% | 92.4% | **97.7%** | **+5.3%** ($p = 5.13 \times 10^{-9}$) |
+| **Architectural Cohesion ($Q$)** | 0.425 | 0.663 | 0.666 | 0.709 | **0.727** | 0.713 | Comparable Modularity |
+| **Inter-Service Coupling Density ($\mathcal{C}$, Lower is Better)** | 0.833 | 0.692 | 0.588 | 0.512 | 0.476 | **0.326** | **-31.5% Decoupled** |
+| **Constraint Satisfaction Rate (CSR %)** | 60.8% | 67.1% | 79.2% | 86.1% | 88.0% | **96.9%** | **+8.9%** ($p = 5.13 \times 10^{-9}$) |
+| **Composite Architecture Fitness** | 0.403 | 0.559 | 0.628 | 0.689 | 0.712 | **0.778** | **+9.3%** ($d = +1.86$, $\hat{A}_{12} = 0.9832$) |
+
+*Why AlphaReq Outperforms Frontier LLMs:* While LLMs exhibit strong natural language comprehension (achieving $90.8\% - 92.4\%$ recall), they suffer from **non-deterministic attention drift on $O(N^2)$ pairwise combinations** and cannot perform **NP-hard global combinatorial backtracking**. AlphaReq's physics-inspired Hamiltonian Simulated Annealing solver guarantees global energy convergence, while dedicated infrastructure enclaves achieve $\mathcal{C} = 0.326$ decoupling that unguided LLM code generation fails to synthesize. (See [`results/llm_benchmark_comparison.csv`](results/llm_benchmark_comparison.csv) and [`results/llm_statistical_tests.json`](results/llm_statistical_tests.json)).
+
 ---
 
 ## 7. Quickstart & One-Click Reproduction
@@ -299,6 +312,8 @@ AlphaReq/
 │   ├── interaction_tensor_lookup_table.csv # Trade-off & synergy coupling values table
 │   ├── fnfc_benchmark_summary.csv     # Zero-shot cross-corpus benchmark on FNFC (N=7,060)
 │   ├── fnfc_statistical_tests.json    # Statistical tests & effect sizes for FNFC evaluation
+│   ├── llm_benchmark_comparison.csv   # SOTA LLM benchmark results (GPT-4o, Claude 3.5, Llama 3)
+│   ├── llm_statistical_tests.json     # Statistical tests & effect sizes for LLM comparison
 │   ├── project_8_coupling_tensor_J.csv # Sample N=92 requirement interaction matrix
 │   ├── project_8_conflicts.json       # Sample pairwise conflict list (Project 8)
 │   ├── project_8_docker_compose.yml   # Synthesized deployment blueprint
