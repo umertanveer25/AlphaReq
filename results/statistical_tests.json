@@ -1,0 +1,26 @@
+{
+    "Cohesion_vs_AlSafadi": {
+        "Wilcoxon_W": 228.0,
+        "p_value": 0.008573121867134971,
+        "Cohens_d": 0.23287312509973457,
+        "Significant": true
+    },
+    "Coupling_vs_AlSafadi": {
+        "Wilcoxon_W": 109.0,
+        "p_value": 5.778346121587674e-07,
+        "Cohens_d": -1.0172404371888701,
+        "Significant": true
+    },
+    "CSR_vs_AlSafadi": {
+        "Wilcoxon_W": 0.0,
+        "p_value": 5.684341886080802e-14,
+        "Cohens_d": 2.3879779077996184,
+        "Significant": true
+    },
+    "Fitness_vs_AlSafadi": {
+        "Wilcoxon_W": 0.0,
+        "p_value": 5.684341886080802e-14,
+        "Cohens_d": 2.354220183561344,
+        "Significant": true
+    }
+}

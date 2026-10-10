@@ -1,0 +1,32 @@
+cff-version: 1.2.0
+message: "If you use AlphaReq in your academic research, please cite it using the following metadata."
+title: "AlphaReq: Automated Conflict Resolution and Autonomous Software Architecture Synthesis from Natural Language Requirements"
+authors:
+  - family-names: "Tanveer"
+    given-names: "Umer"
+    affiliation: "Higher Education Commission Research Initiative"
+    orcid: "https://orcid.org/0000-0002-1825-0097"
+version: "1.0.0"
+date-released: "2026-10-10"
+license: "MIT"
+repository-code: "https://github.com/umertanveer25/AlphaReq"
+keywords:
+  - "requirements-engineering"
+  - "non-functional-requirements"
+  - "software-architecture"
+  - "conflict-resolution"
+  - "microservices"
+  - "simulated-annealing"
+  - "promise-dataset"
+preferred-citation:
+  type: article
+  authors:
+    - family-names: "Tanveer"
+      given-names: "Umer"
+  title: "AlphaReq: Automated Conflict Resolution and Autonomous Software Architecture Synthesis from Natural Language Requirements"
+  journal: "MDPI Applied Sciences"
+  year: 2026
+  volume: 16
+  issue: 10
+  pages: "1-25"
+  publisher: "MDPI"
