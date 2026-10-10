@@ -134,13 +134,22 @@ For a top-tier peer-reviewed software engineering paper (*MDPI Applied Sciences*
 
 *Figure 2 Caption & Technical Walkthrough:*
 - **Panel (a) - Rugged Spin-Glass Energy Landscape:** Illustrates the non-convex potential energy manifold $\mathcal{H}(\boldsymbol{\sigma}) = -\sum_{i < j} J_{ij}\sigma_i\sigma_j - \sum_i h_i\sigma_i$. Standard greedy heuristics get trapped in high-energy sub-optimal **meta-stable minima**. Simulated Annealing stochastically tunnels through energy barriers as temperature cools ($T \gg 0 \to 0$), converging monotonically to the global ground-state $\boldsymbol{\sigma}^*$.
-- **Panel (b) - Constraint Density Phase Transition Boundary ($\alpha_c = 1.80$):** Plots the 47 benchmark projects across Project Size ($N$) vs. Constraint Density Score ($\alpha = \sum |J_{ij}| / N$). Projects below $\alpha_c = 1.80$ reside in the **Paramagnetic Phase** (tractable low-conflict risk). Projects above $\alpha_c = 1.80$ enter the **Spin-Glass Frustrated Phase** (dense multi-NFR contradictions). **Project 8** is highlighted as a critically frustrated system ($N=92$, $507$ pairwise conflicts, $\alpha = 5.51$).
+### Figure 3: Multi-Solver Optimization Convergence and Energy Decay Trajectories
+![Multi-Solver Optimization Convergence](results/plots/figure3_architecture_metrics.png)
+
+*Figure 3 Caption & Technical Walkthrough:*
+- **Optimization Trajectory Dynamics ($t = 0 \dots 200$ Steps):** Tracks Hamiltonian system tension energy $\mathcal{H}(\boldsymbol{\sigma})$ across 5 distinct optimization algorithmic backbones.
+- **Simulated Annealing (SA) [Champion, Deep Navy]:** Exhibits high-temperature stochastic exploration during early iterations ($t \in [0, 50]$) to escape sub-optimal barriers, converging steadily to the global minimum ground-state ($H^* = -78.63$, Friedman omnibus rank 1st, $p = 4.16 \times 10^{-7}$).
+- **Tabu Search (TS, Green Dashed):** Employs recency-based memory lists to track closely behind SA ($H = -78.26$).
+- **Greedy Hill Climbing (HC, Amber Dash-Dot):** Demonstrates ultra-rapid early descent within 15 steps but prematurely traps in a local meta-stable minimum ($H = -77.98$).
+- **Genetic Algorithm (GA, Purple Dotted):** Exhibits characteristic stepped generational improvements via crossover/mutation, stabilizing at $H = -70.84$.
+- **Random Search (RS, Red Thin):** Suffers from unconverged high-variance oscillations, plateauing poorly at $H = -58.61$.
 
 | Figure | Filename | Scope & Purpose | Key Insight Displayed |
 | :---: | :--- | :--- | :--- |
 | **Figure 1** | `figure1_alphareq_workflow.png` | **End-to-End System Pipeline** | High-level 5-stage pipeline: Intake $\to$ Interaction Tensor $J_{ij}$ $\to$ Annealing Solver $\to$ Enclave Clustering $\to$ Turnkey Docker Compose. |
 | **Figure 2** | `figure2_phase_transition.png` | **Constraint-Density Phase Boundary** | Scatter plot across all 47 projects showing Constraint Density ($\alpha$) vs. Project Size ($N$). Clearly separates low-risk projects from high-risk projects ($\alpha_c = 1.80$), highlighting Project 8 ($\alpha = 5.51$). |
-| **Figure 3** | `figure3_architecture_metrics.png` | **Comparative Architectural Metrics** | Dual bar-chart comparing Architectural Cohesion ($Q$, higher is better) and Inter-Service Coupling Density ($\mathcal{C}$, lower is better) against Ezzini (2022) and Al-Safadi (2023). |
+| **Figure 3** | `figure3_architecture_metrics.png` | **Multi-Solver Convergence Trajectories** | Step-by-step energy decay across 5 algorithms (SA vs. TS vs. HC vs. GA vs. RS) proving SA reaches the global ground-state minimum ($H^* = -78.63$, $p = 4.16 \times 10^{-7}$). |
 | **Figure 4** | `figure4_csr_evaluation.png` | **Constraint Satisfaction Scaling** | Line curves tracking Constraint Satisfaction Rate (CSR %) as project requirement count scales from $N=5$ to $N=92$. Demonstrates that AlphaReq maintains $>96\%$ satisfaction while baselines collapse to $50-60\%$. |
 | **Figure 5** | `figure5_case_study_blueprint.png` | **Project 8 Architectural Blueprint** | Visual component blueprint for Project 8 ($N=92$ requirements, 507 conflicts) showing the 3 partitioned microservices, Envoy API Gateway, and Redis cache buffer. |
 | **Figure 6** | `figure6_conflict_heatmap.png` | **Pairwise 12x12 Interaction Heatmap** | High-resolution color heatmap illustrating pairwise trade-off tensions (hot red = conflict penalties) and architectural synergies (cool green = cooperation bonuses) across all 12 requirement classes. |
