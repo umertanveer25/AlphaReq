@@ -19,11 +19,15 @@ def parse_args():
     parser = argparse.ArgumentParser(
         description="AlphaReq: Automated Conflict Resolution and Autonomous Software Architecture Synthesis from Requirements."
     )
+    default_data_path = os.path.join(BASE_DIR, "data", "Promise_Exp.csv")
+    if not os.path.exists(default_data_path) and os.path.exists(r"B:\Promise_Exp.csv"):
+        default_data_path = r"B:\Promise_Exp.csv"
+
     parser.add_argument(
         "--data-path",
         type=str,
-        default="B:/Promise/Paper2/data/p_exp.csv",
-        help="Path to the P-EXP dataset CSV file."
+        default=default_data_path,
+        help="Path to the Promise_Exp dataset CSV file (defaults to data/Promise_Exp.csv)."
     )
     parser.add_argument(
         "--output-dir",

@@ -4,7 +4,7 @@
 [![Python Version](https://img.shields.io/badge/Python-3.9%20%7C%203.10%20%7C%203.11%20%7C%203.12-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Unit Tests](https://img.shields.io/badge/Unit%20Tests-28%20Passed%20(100%25)-brightgreen.svg)](tests/)
-[![Corpus](https://img.shields.io/badge/Corpus-PROMISE%20P--EXP%20(N%3D969%2C%2047%20Projects)-orange.svg)](B:/Promise/Paper2/data/p_exp.csv)
+[![Corpus](https://img.shields.io/badge/Corpus-PROMISE%20Promise__Exp%20(N%3D969%2C%2047%20Projects)-orange.svg)](data/Promise_Exp.csv)
 [![Audit Status](https://img.shields.io/badge/3rd--Party%20Code%20Audit-PASSED%20(Double%20Reviewed)-teal.svg)](audit/AUDIT_REPORT.md)
 [![Docker Ready](https://img.shields.io/badge/Docker%20Compose-Ready-blue.svg)](docker/docker-compose.yml)
 
@@ -202,21 +202,21 @@ python -m pytest tests/ -v
 
 ### Step 3: Run the Master Benchmark Suite
 ```bash
-# Run primary benchmark & export plots
-python run_pipeline.py --data-path "B:/Promise/Paper2/data/p_exp.csv"
+# Run primary benchmark & export plots (uses bundled data/Promise_Exp.csv by default)
+python run_pipeline.py
 
 # Run 10-Fold Cross-Validation across 30 randomized splits (N=300 evaluations)
-python run_pipeline.py --run-kfold --n-splits 10 --n-repeats 30 --data-path "B:/Promise/Paper2/data/p_exp.csv"
+python run_pipeline.py --run-kfold --n-splits 10 --n-repeats 30
 
 # Run complete tournament (Primary + 5 Solvers + 3 Clustering + Ablation + 10-Fold 30-Repeat CV)
-python run_pipeline.py --run-all --data-path "B:/Promise/Paper2/data/p_exp.csv"
+python run_pipeline.py --run-all
 ```
 
 ### Command-Line Arguments:
 ```
 options:
   -h, --help            Show help message and exit
-  --data-path PATH      Path to the P-EXP dataset CSV file (default: B:/Promise/Paper2/data/p_exp.csv)
+  --data-path PATH      Path to the Promise_Exp dataset CSV file (default: data/Promise_Exp.csv)
   --output-dir DIR      Directory to save CSV summaries, JSON stats, and plots
   --target-modules K    Target number of microservices for clustering (default: 4)
   --skip-plots          Skip generation of publication figures

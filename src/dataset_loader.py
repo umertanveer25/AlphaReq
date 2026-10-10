@@ -29,7 +29,17 @@ class PExpDataLoader:
         'PO': 'Portability'
     }
 
-    def __init__(self, data_path: str = "B:/Promise/Paper2/data/p_exp.csv"):
+    def __init__(self, data_path: Optional[str] = None):
+        if data_path is None:
+            # Look in repository data/ directory first, then fallback to B:\Promise_Exp.csv
+            repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            candidate = os.path.join(repo_root, "data", "Promise_Exp.csv")
+            if os.path.exists(candidate):
+                data_path = candidate
+            elif os.path.exists(r"B:\Promise_Exp.csv"):
+                data_path = r"B:\Promise_Exp.csv"
+            else:
+                data_path = candidate
         self.data_path = os.path.abspath(data_path)
         self.df: Optional[pd.DataFrame] = None
         self.load_data()

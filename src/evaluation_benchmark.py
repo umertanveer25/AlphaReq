@@ -3,7 +3,7 @@ import pandas as pd
 import time
 from scipy import stats
 from sklearn.model_selection import RepeatedStratifiedKFold
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Optional
 
 try:
     from .dataset_loader import PExpDataLoader
@@ -47,7 +47,7 @@ class MasterEvaluationBenchmark:
     5. Full Statistical Significance: Wilcoxon Signed-Rank, Friedman Omnibus Test, Cohen's d, Vargha-Delaney A12.
     """
 
-    def __init__(self, data_path: str = "B:/Promise/Paper2/data/p_exp.csv", target_modules: int = 4):
+    def __init__(self, data_path: Optional[str] = None, target_modules: int = 4):
         self.loader = PExpDataLoader(data_path)
         self.detector = ConflictDetector()
         self.solver = HamiltonianEnergySolver()

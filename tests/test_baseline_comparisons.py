@@ -47,7 +47,10 @@ def test_vargha_delaney_a12():
 
 def test_kfold_cross_validation_fast():
     import os
-    data_path = "B:/Promise/Paper2/data/p_exp.csv"
+    repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    data_path = os.path.join(repo_root, "data", "Promise_Exp.csv")
+    if not os.path.exists(data_path) and os.path.exists(r"B:\Promise_Exp.csv"):
+        data_path = r"B:\Promise_Exp.csv"
     if os.path.exists(data_path):
         benchmark = MasterEvaluationBenchmark(data_path=data_path, target_modules=3)
         # Fast 2-fold 2-repeat test

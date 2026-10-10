@@ -50,7 +50,7 @@ All new features or bug fixes must be accompanied by relevant unit tests in `tes
 2. Implement your changes with corresponding tests.
 3. Run the full pipeline to verify that benchmark metrics and figures remain consistent:
    ```bash
-   python run_pipeline.py --data-path "B:/Promise/Paper2/data/p_exp.csv"
+   python run_pipeline.py
    ```
 4. Commit your changes with concise, informative commit messages.
 5. Push to your branch and submit a Pull Request to `main`.

@@ -1,9 +1,14 @@
+import os
 import pandas as pd
 import numpy as np
 import scipy.linalg as la
 
-# Load the P-EXP dataset
-df = pd.read_csv("B:/Promise/Paper2/data/p_exp.csv")
+# Load the Promise_Exp dataset
+repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+data_path = os.path.join(repo_root, "data", "Promise_Exp.csv")
+if not os.path.exists(data_path) and os.path.exists(r"B:\Promise_Exp.csv"):
+    data_path = r"B:\Promise_Exp.csv"
+df = pd.read_csv(data_path)
 
 print("="*75)
 print("ALPHAREQ EMPIRICAL DEMONSTRATION: REQUIREMENTS HAMILTONIAN & FRUSTRATION")
