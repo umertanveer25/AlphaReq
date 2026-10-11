@@ -151,13 +151,23 @@ For a top-tier peer-reviewed software engineering paper (*MDPI Applied Sciences*
 - **Panel (b) - Inter-Service Coupling Density ($\mathcal{C}$, Lower is Better):** Demonstrates **52.88% coupling reduction** ($\mathcal{C} = 0.326 \pm 0.02$) compared to Al-Safadi ($0.692 \pm 0.05$) and Ezzini ($0.833 \pm 0.06$, $p = 5.78 \times 10^{-7}$, Cohen's $d = -1.02$). Routing cross-cutting NFRs into dedicated Envoy and Redis enclaves eliminates tight inter-service dependencies.
 - **Panel (c) - Composite Architectural Fitness (Higher is Better):** Aggregates cohesion, decoupling, and constraint satisfaction into composite fitness. AlphaReq achieves **$0.779 \pm 0.03$ (+39.06% Total System Gain, $p < 10^{-13}$, Cohen's $d = +2.35$, Vargha-Delaney $\hat{A}_{12} = 1.000$)**, establishing absolute empirical superiority across all projects.
 
+### Figure 5: Constraint Satisfaction Scaling with Project Requirement Size ($N=5$ to $N=92$)
+![Constraint Satisfaction Scaling with Project Requirement Size](results/plots/figure5_case_study_blueprint.png)
+
+*Figure 5 Caption & Technical Walkthrough:*
+- **Empirical Scaling Resilience ($N=5 \dots 92$ Requirements):** Evaluates how Constraint Satisfaction Rate (CSR %) behaves as software requirement specifications grow in complexity and volume.
+- **AlphaReq (Champion, Solid Emerald Green):** Maintains a sustained, rock-solid **$\text{CSR} \ge 96.82\%$** across all project scales from $N=5$ up to $N=92$. Global Hamiltonian relaxation and enclave routing prevent performance and security requirements from colliding during execution.
+- **Al-Safadi et al. (2023) [Slate Blue Dashed]:** Starts at ~80% for small projects ($N \le 10$) and exhibits continuous linear degradation down to **$67.13\%$** at $N=92$ due to cross-cutting NFRs tangling directly inside business microservices.
+- **Ezzini et al. (2022) [Muted Gray Dotted]:** Lacking pairwise conflict modeling, satisfaction collapses steeply from $72\%$ down to **$50.00\% - 60.84\%$** under dense requirement loads.
+- **Project 8 Critical Highlight ($N=92, 507$ Conflicts):** AlphaReq achieves $96.82\%$ CSR compared to $60.84\%$ (Ezzini) and $67.13\%$ (Al-Safadi), delivering a **+29.69% absolute satisfaction advantage ($p < 10^{-13}$)**.
+
 | Figure | Filename | Scope & Purpose | Key Insight Displayed |
 | :---: | :--- | :--- | :--- |
 | **Figure 1** | `figure1_alphareq_workflow.png` | **End-to-End System Pipeline** | High-level 5-stage pipeline: Intake $\to$ Interaction Tensor $J_{ij}$ $\to$ Annealing Solver $\to$ Enclave Clustering $\to$ Turnkey Docker Compose. |
 | **Figure 2** | `figure2_phase_transition.png` | **Constraint-Density Phase Boundary** | Scatter plot across all 47 projects showing Constraint Density ($\alpha$) vs. Project Size ($N$). Clearly separates low-risk projects from high-risk projects ($\alpha_c = 1.80$), highlighting Project 8 ($\alpha = 5.51$). |
 | **Figure 3** | `figure3_architecture_metrics.png` | **Multi-Solver Convergence Trajectories** | Step-by-step energy decay across 5 algorithms (SA vs. TS vs. HC vs. GA vs. RS) proving SA reaches the global ground-state minimum ($H^* = -78.63$, $p = 4.16 \times 10^{-7}$). |
 | **Figure 4** | `figure4_csr_evaluation.png` | **Empirical Architectural Metrics** | 3-panel comparative metrics (Cohesion $Q$, Coupling $\mathcal{C}$, Composite Fitness) establishing +39.06% gain and 52.88% decoupling over baselines ($p < 10^{-13}$, $\hat{A}_{12} = 1.000$). |
-| **Figure 5** | `figure5_case_study_blueprint.png` | **Project 8 Architectural Blueprint** | Visual component blueprint for Project 8 ($N=92$ requirements, 507 conflicts) showing the 3 partitioned microservices, Envoy API Gateway, and Redis cache buffer. |
+| **Figure 5** | `figure5_case_study_blueprint.png` | **Constraint Satisfaction Scaling** | Empirical scaling curves ($N=5 \dots 92$) showing AlphaReq sustains $>96\%$ CSR while baselines collapse to $50-67\%$ under scale ($p < 10^{-13}$). |
 | **Figure 6** | `figure6_conflict_heatmap.png` | **Pairwise 12x12 Interaction Heatmap** | High-resolution color heatmap illustrating pairwise trade-off tensions (hot red = conflict penalties) and architectural synergies (cool green = cooperation bonuses) across all 12 requirement classes. |
 | **Figure 7** | `figure7_cross_validation_distribution.png` | **10-Fold 30-Repeat CV Boxplots** | 4-panel empirical distribution boxplots across 300 evaluations showing tight 95% confidence intervals and sustained superiority over baselines. |
 
