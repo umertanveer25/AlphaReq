@@ -143,14 +143,20 @@ For a top-tier peer-reviewed software engineering paper (*MDPI Applied Sciences*
 - **Tabu Search (TS, Green Dashed):** Employs recency-based memory lists to track closely behind SA ($H = -78.26$).
 - **Greedy Hill Climbing (HC, Amber Dash-Dot):** Demonstrates ultra-rapid early descent within 15 steps but prematurely traps in a local meta-stable minimum ($H = -77.98$).
 - **Genetic Algorithm (GA, Purple Dotted):** Exhibits characteristic stepped generational improvements via crossover/mutation, stabilizing at $H = -70.84$.
-- **Random Search (RS, Red Thin):** Suffers from unconverged high-variance oscillations, plateauing poorly at $H = -58.61$.
+### Figure 4: Empirical Architectural Quality Metrics Across 47 Projects
+![Empirical Architectural Quality Metrics Across 47 Projects](results/plots/figure4_csr_evaluation.png)
+
+*Figure 4 Caption & Technical Walkthrough:*
+- **Panel (a) - Architectural Cohesion ($Q$, Higher is Better):** Compares Newman-Girvan modularity cohesion across the 47 benchmark projects. AlphaReq achieves $Q = 0.715 \pm 0.03$, outperforming Al-Safadi ($0.665 \pm 0.05$) by **+7.49%** ($p = 0.00857$) and Ezzini ($0.425 \pm 0.04$) by +68.2%, proving that semantic TF-IDF clustering groups functionally interrelated requirements with high internal coherence.
+- **Panel (b) - Inter-Service Coupling Density ($\mathcal{C}$, Lower is Better):** Demonstrates **52.88% coupling reduction** ($\mathcal{C} = 0.326 \pm 0.02$) compared to Al-Safadi ($0.692 \pm 0.05$) and Ezzini ($0.833 \pm 0.06$, $p = 5.78 \times 10^{-7}$, Cohen's $d = -1.02$). Routing cross-cutting NFRs into dedicated Envoy and Redis enclaves eliminates tight inter-service dependencies.
+- **Panel (c) - Composite Architectural Fitness (Higher is Better):** Aggregates cohesion, decoupling, and constraint satisfaction into composite fitness. AlphaReq achieves **$0.779 \pm 0.03$ (+39.06% Total System Gain, $p < 10^{-13}$, Cohen's $d = +2.35$, Vargha-Delaney $\hat{A}_{12} = 1.000$)**, establishing absolute empirical superiority across all projects.
 
 | Figure | Filename | Scope & Purpose | Key Insight Displayed |
 | :---: | :--- | :--- | :--- |
 | **Figure 1** | `figure1_alphareq_workflow.png` | **End-to-End System Pipeline** | High-level 5-stage pipeline: Intake $\to$ Interaction Tensor $J_{ij}$ $\to$ Annealing Solver $\to$ Enclave Clustering $\to$ Turnkey Docker Compose. |
 | **Figure 2** | `figure2_phase_transition.png` | **Constraint-Density Phase Boundary** | Scatter plot across all 47 projects showing Constraint Density ($\alpha$) vs. Project Size ($N$). Clearly separates low-risk projects from high-risk projects ($\alpha_c = 1.80$), highlighting Project 8 ($\alpha = 5.51$). |
 | **Figure 3** | `figure3_architecture_metrics.png` | **Multi-Solver Convergence Trajectories** | Step-by-step energy decay across 5 algorithms (SA vs. TS vs. HC vs. GA vs. RS) proving SA reaches the global ground-state minimum ($H^* = -78.63$, $p = 4.16 \times 10^{-7}$). |
-| **Figure 4** | `figure4_csr_evaluation.png` | **Constraint Satisfaction Scaling** | Line curves tracking Constraint Satisfaction Rate (CSR %) as project requirement count scales from $N=5$ to $N=92$. Demonstrates that AlphaReq maintains $>96\%$ satisfaction while baselines collapse to $50-60\%$. |
+| **Figure 4** | `figure4_csr_evaluation.png` | **Empirical Architectural Metrics** | 3-panel comparative metrics (Cohesion $Q$, Coupling $\mathcal{C}$, Composite Fitness) establishing +39.06% gain and 52.88% decoupling over baselines ($p < 10^{-13}$, $\hat{A}_{12} = 1.000$). |
 | **Figure 5** | `figure5_case_study_blueprint.png` | **Project 8 Architectural Blueprint** | Visual component blueprint for Project 8 ($N=92$ requirements, 507 conflicts) showing the 3 partitioned microservices, Envoy API Gateway, and Redis cache buffer. |
 | **Figure 6** | `figure6_conflict_heatmap.png` | **Pairwise 12x12 Interaction Heatmap** | High-resolution color heatmap illustrating pairwise trade-off tensions (hot red = conflict penalties) and architectural synergies (cool green = cooperation bonuses) across all 12 requirement classes. |
 | **Figure 7** | `figure7_cross_validation_distribution.png` | **10-Fold 30-Repeat CV Boxplots** | 4-panel empirical distribution boxplots across 300 evaluations showing tight 95% confidence intervals and sustained superiority over baselines. |
