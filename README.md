@@ -161,6 +161,22 @@ For a top-tier peer-reviewed software engineering paper (*MDPI Applied Sciences*
 - **Ezzini et al. (2022) [Muted Gray Dotted]:** Lacking pairwise conflict modeling, satisfaction collapses steeply from $72\%$ down to **$50.00\% - 60.84\%$** under dense requirement loads.
 - **Project 8 Critical Highlight ($N=92, 507$ Conflicts):** AlphaReq achieves $96.82\%$ CSR compared to $60.84\%$ (Ezzini) and $67.13\%$ (Al-Safadi), delivering a **+29.69% absolute satisfaction advantage ($p < 10^{-13}$)**.
 
+### Figure 6: Symmetrical Pairwise Requirement Tension Coupling Matrix ($J_{ij}$)
+![Symmetrical Pairwise Requirement Tension Coupling Matrix](results/plots/figure6_conflict_heatmap.png)
+
+*Figure 6 Caption & Technical Walkthrough:*
+- **Mathematical Coupling Manifold ($12 \times 12$ Symmetrical Tensor):** Visualizes the inter-attribute interaction matrix $J_{ij}$ across the 12 standard ISO/IEC 25010 requirement quality classes.
+- **Negative Conflict Penalties (Antiferromagnetic, Crimson):** Highlight critical architectural tensions that cause monolithic failure if unmanaged:
+  * **$(\text{PE}, \text{SE}) = -0.75$:** Sub-100ms real-time latency vs. heavy cryptographic handshakes / biometric validation.
+  * **$(\text{SE}, \text{US}) = -0.65$:** Multi-factor authentication / strict timeouts vs. frictionless 1-click user experience.
+  * **$(\text{PE}, \text{FT}) = -0.45$:** High-throughput processing vs. synchronous consensus checkpointing.
+  * **$(\text{SC}, \text{PE}) = -0.40$:** Horizontal cloud distribution vs. raw single-node compute speed.
+- **Positive Synergy Bonuses (Ferromagnetic, Emerald):** Reinforce cooperative architectural characteristics:
+  * **$(\text{A}, \text{FT}) = +0.60$:** Redundant fault tolerance directly guarantees high availability.
+  * **$(\text{LF}, \text{US}) = +0.55$:** Consistent look-and-feel directly reinforces usability.
+  * **$(\text{SE}, \text{L}) = +0.55$:** Security compliance directly satisfies legal mandates.
+- **Project Scale:** In Project 8 ($N=92$), this coupling matrix uncovers **507 latent pairwise conflicts** that AlphaReq resolves via enclave isolation.
+
 | Figure | Filename | Scope & Purpose | Key Insight Displayed |
 | :---: | :--- | :--- | :--- |
 | **Figure 1** | `figure1_alphareq_workflow.png` | **End-to-End System Pipeline** | High-level 5-stage pipeline: Intake $\to$ Interaction Tensor $J_{ij}$ $\to$ Annealing Solver $\to$ Enclave Clustering $\to$ Turnkey Docker Compose. |
@@ -168,8 +184,7 @@ For a top-tier peer-reviewed software engineering paper (*MDPI Applied Sciences*
 | **Figure 3** | `figure3_architecture_metrics.png` | **Multi-Solver Convergence Trajectories** | Step-by-step energy decay across 5 algorithms (SA vs. TS vs. HC vs. GA vs. RS) proving SA reaches the global ground-state minimum ($H^* = -78.63$, $p = 4.16 \times 10^{-7}$). |
 | **Figure 4** | `figure4_csr_evaluation.png` | **Empirical Architectural Metrics** | 3-panel comparative metrics (Cohesion $Q$, Coupling $\mathcal{C}$, Composite Fitness) establishing +39.06% gain and 52.88% decoupling over baselines ($p < 10^{-13}$, $\hat{A}_{12} = 1.000$). |
 | **Figure 5** | `figure5_case_study_blueprint.png` | **Constraint Satisfaction Scaling** | Empirical scaling curves ($N=5 \dots 92$) showing AlphaReq sustains $>96\%$ CSR while baselines collapse to $50-67\%$ under scale ($p < 10^{-13}$). |
-| **Figure 6** | `figure6_conflict_heatmap.png` | **Pairwise 12x12 Interaction Heatmap** | High-resolution color heatmap illustrating pairwise trade-off tensions (hot red = conflict penalties) and architectural synergies (cool green = cooperation bonuses) across all 12 requirement classes. |
-| **Figure 7** | `figure7_cross_validation_distribution.png` | **10-Fold 30-Repeat CV Boxplots** | 4-panel empirical distribution boxplots across 300 evaluations showing tight 95% confidence intervals and sustained superiority over baselines. |
+| **Figure 6** | `figure6_conflict_heatmap.png` | **Pairwise Tension Matrix ($J_{ij}$)** | Perfectly symmetrical $12 \times 12$ matrix (600 DPI) mapping ISO 25010 conflicts (Red, $-0.75$) and synergies (Green, $+0.60$). |
 
 ---
 
