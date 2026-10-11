@@ -177,6 +177,20 @@ For a top-tier peer-reviewed software engineering paper (*MDPI Applied Sciences*
   * **$(\text{SE}, \text{L}) = +0.55$:** Security compliance directly satisfies legal mandates.
 - **Project Scale:** In Project 8 ($N=92$), this coupling matrix uncovers **507 latent pairwise conflicts** that AlphaReq resolves via enclave isolation.
 
+### Figure 7: Synthesized Multi-Container Microservice Architecture Blueprint (Project 8)
+![Synthesized Multi-Container Microservice Architecture Blueprint](results/plots/figure7_microservice_topology.png)
+
+*Figure 7 Caption & Technical Walkthrough:*
+- **Three-Tier Architectural Enclave Deployment:** Illustrates the concrete Docker Compose microservice topology generated for Project 8 ($N=92$ requirements, 507 latent conflicts).
+- **Ingress & Security Enclave Tier (Left):** Envoy Edge API Gateway (Port 80:80) intercepts all client traffic, offloading perimeter OAuth2/JWT token verification, SSL termination, and rate limiting (Security & Usability Enclave: SE, US).
+- **Business Logic Tier (Center):** 4 cohesive microservices isolated on internal bridge network `app-network` and communicating over `gRPC / Event Bus`:
+  * **Microservice 1 (Blue):** Core Processing Service (Port 5001) [28 Functional Reqs]
+  * **Microservice 2 (Green):** User Management Service (Port 5002) [22 Functional Reqs]
+  * **Microservice 3 (Orange):** Reporting & Analytics Service (Port 5003) [19 Functional Reqs]
+  * **Microservice 4 (Teal):** Notification Service (Port 5004) [15 Functional Reqs]
+- **Infrastructure & Performance Enclave Tier (Right):** Redis In-Memory Cache (Port 6379) buffers high-throughput queries to guarantee sub-100ms response times (Performance & Scalability Enclave: PE, SC), while Compliance & Audit Logger manages legal/operational tracking (MN, L, O).
+- **Architectural Metrics:** Achieves high modularity ($Q = 0.713$), low coupling ($\mathcal{C} = 0.326$), and complete constraint satisfaction ($\text{CSR} = 96.82\%$).
+
 | Figure | Filename | Scope & Purpose | Key Insight Displayed |
 | :---: | :--- | :--- | :--- |
 | **Figure 1** | `figure1_alphareq_workflow.png` | **End-to-End System Pipeline** | High-level 5-stage pipeline: Intake $\to$ Interaction Tensor $J_{ij}$ $\to$ Annealing Solver $\to$ Enclave Clustering $\to$ Turnkey Docker Compose. |
@@ -185,6 +199,7 @@ For a top-tier peer-reviewed software engineering paper (*MDPI Applied Sciences*
 | **Figure 4** | `figure4_csr_evaluation.png` | **Empirical Architectural Metrics** | 3-panel comparative metrics (Cohesion $Q$, Coupling $\mathcal{C}$, Composite Fitness) establishing +39.06% gain and 52.88% decoupling over baselines ($p < 10^{-13}$, $\hat{A}_{12} = 1.000$). |
 | **Figure 5** | `figure5_case_study_blueprint.png` | **Constraint Satisfaction Scaling** | Empirical scaling curves ($N=5 \dots 92$) showing AlphaReq sustains $>96\%$ CSR while baselines collapse to $50-67\%$ under scale ($p < 10^{-13}$). |
 | **Figure 6** | `figure6_conflict_heatmap.png` | **Pairwise Tension Matrix ($J_{ij}$)** | Perfectly symmetrical $12 \times 12$ matrix (600 DPI) mapping ISO 25010 conflicts (Red, $-0.75$) and synergies (Green, $+0.60$). |
+| **Figure 7** | `figure7_microservice_topology.png` | **Microservice Architecture Blueprint** | 3-tier concrete Docker Compose topology for Project 8 showing 4 business microservices wrapped by Envoy Gateway and Redis enclaves. |
 
 ---
 
