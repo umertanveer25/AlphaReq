@@ -209,6 +209,16 @@ For a top-tier peer-reviewed software engineering paper (*MDPI Applied Sciences*
 - **Panel (a) - Constraint Satisfaction Rate (CSR %) Across Corpora:** AlphaReq maintains a resilient **$96.82\% \pm 0.28\%$** on PROMISE and **$97.85\% \pm 0.42\%$** on FNFC, decisively outperforming Al-Safadi ($67.13\%$ on PROMISE, $76.71\%$ on FNFC) and Ezzini ($60.84\%$ on PROMISE, $69.60\%$ on FNFC). Statistical significance: **Wilcoxon $p = 5.64 \times 10^{-26}$, Cohen's $d = +2.31$**.
 - **Panel (b) - Composite Architectural Fitness Distribution:** AlphaReq achieves sustained fitness superiority ($0.779$ on PROMISE, $0.744$ on FNFC) with **$100\%$ non-parametric statistical dominance (Vargha-Delaney $\hat{A}_{12} = 1.000$)** across all 142 FNFC project partitions, proving that physics-inspired Hamiltonian relaxation generalizes without dataset-specific overfitting.
 
+### Figure 10: Frontier LLM Comparative Performance (AlphaReq vs. GPT-4o, Claude 3.5 Sonnet, Llama-3-70B-Instruct)
+![Frontier LLM Comparative Performance](results/plots/figure10_llm_benchmark.png)
+
+*Figure 10 Caption & Technical Walkthrough:*
+- **Comparative LLM Architecture Benchmark:** Grouped multi-metric comparison across the 5 core software engineering dimensions evaluated on all 47 benchmark projects.
+- **Conflict Detection Recall (%):** AlphaReq achieves **97.7%**, outperforming Claude 3.5 Sonnet (92.4%, **+5.3%**, $p = 5.13 \times 10^{-9}$), GPT-4o (90.8%), and Llama-3-70B-Instruct (82.3%).
+- **Coupling Decoupling ($1 - \mathcal{C}$):** AlphaReq achieves **0.674** (**31.5% coupling reduction**, $\mathcal{C} = 0.326$) through dedicated infrastructure enclaves (Envoy, Redis) compared to 0.488–0.524 for prompted LLMs.
+- **Constraint Satisfaction Rate (CSR %):** Holds at **96.9%** (**+8.9%** over Claude 3.5 and **+10.8%** over GPT-4o) as simulated annealing resolves NP-hard multi-NFR tensions where greedy auto-regressive LLM sampling fails.
+- **Composite Architecture Fitness:** Achieves **0.778** (**+9.3%** overall fitness gain, Cohen's $d = +1.86$, Vargha-Delaney $\hat{A}_{12} = 0.9832$).
+
 | Figure | Filename | Scope & Purpose | Key Insight Displayed |
 | :---: | :--- | :--- | :--- |
 | **Figure 1** | `figure1_alphareq_workflow.png` | **End-to-End System Pipeline** | High-level 5-stage pipeline: Intake $\to$ Interaction Tensor $J_{ij}$ $\to$ Annealing Solver $\to$ Enclave Clustering $\to$ Turnkey Docker Compose. |
@@ -220,6 +230,7 @@ For a top-tier peer-reviewed software engineering paper (*MDPI Applied Sciences*
 | **Figure 7** | `figure7_microservice_topology.png` | **Microservice Architecture Blueprint** | 3-tier concrete Docker Compose topology for Project 8 showing 4 business microservices wrapped by Envoy Gateway and Redis enclaves. |
 | **Figure 8** | `figure8_cross_validation_distribution.png` | **10-Fold 30-Repeat CV Boxplots** | 4-panel empirical distribution boxplots across 300 evaluations showing tight 95% confidence intervals and sustained superiority over baselines ($p < 10^{-50}$, $\hat{A}_{12} = 1.000$). |
 | **Figure 9** | `figure9_cross_corpus_generalization.png` | **Zero-Shot Cross-Corpus Validation** | Dual violin/box distributions proving AlphaReq maintains 97.85% CSR and A12=1.000 across 7,060 unseen FNFC requirements ($p = 5.64 \times 10^{-26}$). |
+| **Figure 10** | `figure10_llm_benchmark.png` | **Frontier LLM Comparative Benchmark** | 5-dimension comparison vs. GPT-4o, Claude 3.5 Sonnet, and Llama-3-70B showing AlphaReq +5.3% recall, -31.5% coupling, and +9.3% fitness ($d = +1.86, \hat{A}_{12} = 0.9832$). |
 
 ---
 
